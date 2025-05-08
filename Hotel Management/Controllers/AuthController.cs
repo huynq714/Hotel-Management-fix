@@ -72,23 +72,44 @@ namespace Hotel_Management.Controllers
         {
             if (ModelState.IsValid)
             {
-                string hashedPassword = HashPassword(model.Password);
-                var account = db.Accounts.FirstOrDefault(a =>
-                    a.Username == model.UserName &&
-                    a.PasswordHash == hashedPassword &&
-                    a.Status == "Active");
+                var account = db.Accounts.FirstOrDefault(a => a.Username == model.UserName);
 
-                if (account != null)
+                if (account == null)
                 {
-                    Session["User"] = account.Username;
-                    Session["Role"] = account.Role;
-                    return RedirectToAction("Index", "Home");
+                    ModelState.AddModelError("UserName", "Tài khoản không tồn tại.");
+                    return View(model);
                 }
 
-                ModelState.AddModelError("", "Sai tài khoản hoặc mật khẩu.");
+                if (account.Status != "Active")
+                {
+                    ModelState.AddModelError("", "Tài khoản của bạn đã bị khóa.");
+                    return View(model);
+                }
+
+                string hashedPassword = HashPassword(model.Password);
+                if (account.PasswordHash != hashedPassword)
+                {
+                    ModelState.AddModelError("Password", "Mật khẩu không đúng, vui lòng nhập lại.");
+                    return View(model);
+                }
+
+                // Đăng nhập thành công
+                Session["User"] = account.Username;
+                Session["Role"] = account.Role;
+
+                var customer = db.Customers.FirstOrDefault(c => c.AccountID == account.AccountID);
+                if (customer != null)
+                {
+                    Session["FullName"] = customer.FullName;
+                }
+
+                return RedirectToAction("Index", "Home");
             }
+
             return View(model);
         }
+
+
 
         private string HashPassword(string password)
         {
@@ -99,6 +120,13 @@ namespace Hotel_Management.Controllers
                 return Convert.ToBase64String(hash);
             }
         }
+
+        public ActionResult Logout()
+        {
+            Session.Clear(); // hoặc: Session.Abandon();
+            return RedirectToAction("Login");
+        }
+
 
     }
 }

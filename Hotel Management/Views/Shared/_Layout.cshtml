@@ -9,6 +9,18 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+        <ul class="nav navbar-nav navbar-right">
+            @if (Session["User"] != null)
+            {
+                <div style="position: fixed; top: 10px; right: 20px; z-index: 1000; color: white;">
+                    <span>Xin chào, <strong>@Session["FullName"]</strong></span> |
+                    @Html.ActionLink("Đăng xuất", "Logout", "Auth", null, new { @style = "color: white;" })
+                </div>
+            }
+
+        </ul>
+
+
         <div class="container">
             @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
@@ -20,6 +32,7 @@
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+
                 </ul>
             </div>
         </div>
@@ -31,6 +44,9 @@
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
+   
+
+
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
