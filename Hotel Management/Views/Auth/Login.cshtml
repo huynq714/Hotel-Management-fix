@@ -1,0 +1,90 @@
+﻿@model Hotel_Management.Models.LoginViewModel
+@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Đăng nhập</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial;
+            background-color: #f0f0f0;
+        }
+
+        .form-container {
+            width: 350px;
+            margin: 100px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+            .form-container h2 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            .form-group input {
+                width: 100%;
+                padding: 8px;
+                box-sizing: border-box;
+            }
+
+        .btn-submit {
+            width: 100%;
+            padding: 10px;
+            background-color: #3498db;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .link-register {
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Đăng nhập</h2>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                @Html.LabelFor(m => m.UserName)
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password)
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            </div>
+
+            <button type="submit" class="btn-submit">Đăng nhập</button>
+        }
+
+        <div class="link-register">
+            Bạn chưa có tài khoản? <a href="@Url.Action("Register", "Auth")">Đăng ký ngay</a>
+        </div>
+    </div>
+</body>
+</html>
