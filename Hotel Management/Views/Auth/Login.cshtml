@@ -13,43 +13,46 @@
         body {
             margin: 0;
             padding: 0;
-            font-family: Arial;
-            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            background-image: url('@Url.Content("~/Image/hotel.jpg")');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            height: 100vh;
         }
 
         .form-container {
             width: 350px;
             margin: 100px auto;
-            background: white;
+            background: rgba(255, 255, 255, 0.8); /* Nền trong suốt */
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 0 10px #ccc;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Bóng nhẹ cho form */
         }
 
-            .form-container h2 {
-                text-align: center;
-                margin-bottom: 20px;
-            }
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
 
         .form-group {
             margin-bottom: 15px;
         }
 
-            .form-group label {
-                display: block;
-                margin-bottom: 5px;
-            }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
 
-            .form-group input {
-                width: 100%;
-                padding: 8px;
-                box-sizing: border-box;
-            }
-
-        .text-danger {
-            color: red;
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
             font-size: 14px;
-            margin-top: 5px;
         }
 
         .btn-submit {
@@ -61,6 +64,16 @@
             font-size: 16px;
             cursor: pointer;
             border-radius: 4px;
+        }
+
+        .btn-submit:hover {
+            background-color: #2980b9;
+        }
+
+        .text-danger {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
         }
 
         .link-register {
