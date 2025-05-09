@@ -96,6 +96,7 @@ namespace Hotel_Management.Controllers
                 // Đăng nhập thành công
                 Session["User"] = account.Username;
                 Session["Role"] = account.Role;
+                Session["AccountID"] = account.AccountID;
 
                 var customer = db.Customers.FirstOrDefault(c => c.AccountID == account.AccountID);
                 if (customer != null)

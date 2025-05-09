@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Hotel Management/Web.config
+/Hotel Management/Web.Debug.config
+/Hotel Management/Web.Release.config
