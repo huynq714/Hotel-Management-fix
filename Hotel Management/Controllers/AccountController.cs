@@ -12,8 +12,10 @@ namespace Hotel_Management.Controllers
         private Hotel_ManagementEntities db = new Hotel_ManagementEntities();
 
         [HttpGet]
-        public ActionResult AccountInfo(int id)
+        public ActionResult AccountInfo()
         {
+            if (Session["AccountID"] == null) return RedirectToAction("Login", "Auth");
+            int id = (int)Session["AccountID"];
             var account = db.Accounts.FirstOrDefault(a => a.AccountID == id);
             if (account == null)
             {
@@ -113,5 +115,49 @@ namespace Hotel_Management.Controllers
              return View(model);
         }
 
+        [HttpGet]
+        public ActionResult ChangePassword()
+        {
+            AccountChangePassViewModel model = new AccountChangePassViewModel();
+            if (Session["User"] == null) return RedirectToAction("Login", "Auth");
+            model.UserName = Session["User"].ToString();
+            return View(model);
+        }
+
+        [HttpPost]  
+        public ActionResult ChangePassword(AccountChangePassViewModel model)
+        {
+            model.UserName = Session["User"].ToString();
+            if (ModelState.IsValid)
+            {
+                var account = db.Accounts.FirstOrDefault(a => a.Username == model.UserName);
+                if (account == null)
+                {
+                    return View(model);
+                }
+                string hashedPassword = HashPassword(model.Password);
+                if (account.PasswordHash != hashedPassword)
+                {
+                    ModelState.AddModelError("Password", "Mật khẩu không đúng, vui lòng nhập lại.");
+                    return View(model);
+                }
+                else
+                {
+                    account.PasswordHash = HashPassword(model.NewPassword);
+                    db.SaveChanges();
+                    return RedirectToAction("AccountInfo", "Account");
+                }
+            }
+            return View(model);
+        }
+        private string HashPassword(string password)
+        {
+            using (var sha = System.Security.Cryptography.SHA256.Create())
+            {
+                var bytes = System.Text.Encoding.UTF8.GetBytes(password);
+                var hash = sha.ComputeHash(bytes);
+                return Convert.ToBase64String(hash);
+            }
+        }
     }
 }
