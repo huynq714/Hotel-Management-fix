@@ -98,11 +98,32 @@ namespace Hotel_Management.Controllers
                 Session["Role"] = account.Role;
                 Session["AccountID"] = account.AccountID;
 
-                var customer = db.Customers.FirstOrDefault(c => c.AccountID == account.AccountID);
-                if (customer != null)
+                if(account.Role == "Admin")
                 {
-                    Session["FullName"] = customer.FullName;
+                    var admin = db.Admins.FirstOrDefault(a => a.AccountID == account.AccountID);
+                    if (admin != null)
+                    {
+                        Session["FullName"] = admin.FullName;
+                    }
                 }
+                else if(account.Role == "Staff")
+                {
+                    var staff = db.Staffs.FirstOrDefault(a => a.AccountID == account.AccountID);
+                    if (staff != null)
+                    {
+                        Session["FullName"] = staff.FullName;
+                    }
+                }
+                else
+                {
+                    var customer = db.Customers.FirstOrDefault(c => c.AccountID == account.AccountID);
+                    if (customer != null)
+                    {
+                        Session["FullName"] = customer.FullName;
+                    }
+
+                }
+
 
                 return RedirectToAction("Index", "Home");
             }

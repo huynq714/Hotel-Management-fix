@@ -4,24 +4,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-        <ul class="nav navbar-nav navbar-right">
-            @if (Session["User"] != null)
-            {
-                <div style="position: fixed; top: 10px; right: 20px; z-index: 1000; color: white;">
-                    <span>Xin chào, <strong>@Session["FullName"]</strong></span> |
-                    @Html.ActionLink("Đăng xuất", "Logout", "Auth", null, new { @style = "color: white;" })
-                </div>
-            }
-
-        </ul>
-
-
+        
         <div class="container">
             @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
@@ -34,11 +23,21 @@
                     <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>
-                        @Html.ActionLink("Account", "AccountInfo", "Account", new { id = (int)Session["AccountID"]}, new { @class = "nav-link" })
+                        @Html.ActionLink("Account", "AccountInfo", "Account", new { id = (int)Session["AccountID"] }, new { @class = "nav-link" })
                     </li>
 
-            </ul>
-        </div>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @if (Session["User"] != null)
+                    {
+                        <li style="top: 10px; right: 20px; z-index: 1000; color: white;">
+                            <span>Xin chào, <strong>@Session["FullName"]</strong></span> |
+                            @Html.ActionLink("Đăng xuất", "Logout", "Auth", null, new { @style = "color: white;" })
+                        </li>
+                    }
+
+                </ul>
+            </div>
     </div>
 </nav>
 <div class="container body-content">
