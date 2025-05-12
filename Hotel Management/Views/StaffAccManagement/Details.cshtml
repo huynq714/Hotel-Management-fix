@@ -1,0 +1,67 @@
+﻿@model Hotel_Management.Models.StaffViewModel
+@{
+    ViewBag.Title = "Chi tiết nhân viên";
+}
+
+<h1>Thông tin Chi Tiết Nhân viên</h1>
+
+<div>
+    <hr />
+    <form action='@Url.Action("Edit", "StaffAccManagement", new { id = @Model.AccountID })' method="post" >
+        @Html.HiddenFor(model => model.AccountID)
+        @Html.HiddenFor(model => model.Username)
+        <dl class="row">
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Username)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Username)</dd>
+
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Fullname)</dt>
+            <dd class="col-sm-10">
+                @Html.TextBoxFor(model => model.Fullname, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Fullname, "", new { @class = "text-danger" })
+            </dd>
+
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.CCCD)</dt>
+            <dd class="col-sm-10">
+                @Html.TextBoxFor(model => model.CCCD, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CCCD, "", new { @class = "text-danger" })
+            </dd>
+
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Email)</dt>
+            <dd class="col-sm-10">
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", type = "email" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </dd>
+
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Phone)</dt>
+            <dd class="col-sm-10">
+                @Html.TextBoxFor(model => model.Phone, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+            </dd>
+
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Position)</dt>
+            <dd class="col-sm-10">
+                @Html.TextBoxFor(model => model.Position, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
+            </dd>
+
+            @Html.HiddenFor(model => model.Status)
+            <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Status)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Status)</dd>
+        </dl>
+        <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+    </form>
+    <div style="display: inline-flex ">
+        <form action='@Url.Action("Delete", "StaffAccManagement", new { id = @Model.AccountID })' method="post" class="mt-2">
+            @Html.HiddenFor(model => model.AccountID)
+            <button type="submit" class="btn btn-danger">Xóa Nhân Viên</button>
+        </form>
+        <a href= '@Url.Action("Index", "StaffAccManagement")'  class="btn btn-secondary mt-2 mx-3">Quay lại danh sách</a>
+    </div>
+
+</div>
+
+<style>
+    dl > dt{
+        align-content: center;
+    }
+</style>

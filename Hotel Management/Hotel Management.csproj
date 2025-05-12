@@ -291,6 +291,7 @@
     <Content Include="Views\Account\AccountInfo.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\StaffAccManagement\Index.cshtml" />
+    <Content Include="Views\StaffAccManagement\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

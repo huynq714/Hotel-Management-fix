@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Hotel_Management.Models.StaffViewModel>
 @{
-    ViewBag.Title = "Info";
+    ViewBag.Title = "Quản lí nhân viên";
 }
 
 
@@ -25,9 +25,9 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr style="cursor: pointer;" onclick="window.location='@Url.Action("Details", "StaffAccManagement", new { id = item.AccountID })';">
                 <td>@Html.DisplayFor(modelItem => item.Username)</td>
-                <td><a href="@Url.Action("Details", "StaffAccManagement", new { id = item.AccountID })">@Html.DisplayFor(modelItem => item.Fullname)</a></td>
+                <td>@Html.DisplayFor(modelItem => item.Fullname)</td>
                 <td>@Html.DisplayFor(modelItem => item.CCCD)</td>
                 <td>@Html.DisplayFor(modelItem => item.Email)</td>
                 <td>@Html.DisplayFor(modelItem => item.Phone)</td>
