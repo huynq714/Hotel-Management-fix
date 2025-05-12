@@ -23,7 +23,10 @@
                     <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>
-                        @Html.ActionLink("Account", "AccountInfo", "Account", new { id = (int)Session["AccountID"] }, new { @class = "nav-link" })
+                        @Html.ActionLink("Account", "AccountInfo", "Account", new { area = "" }, new { @class = "nav-link" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("Staff Management", "Index", "StaffAccManagement", new { area = "" }, new { @class = "nav-link" })
                     </li>
 
                 </ul>
