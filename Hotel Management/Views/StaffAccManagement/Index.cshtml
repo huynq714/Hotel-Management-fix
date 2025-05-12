@@ -27,15 +27,15 @@
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.Username)</td>
-                <td><a asp-action="Details" asp-route-id="@item.AccountID">@Html.DisplayFor(modelItem => item.Fullname)</a></td>
+                <td><a href="@Url.Action("Details", "StaffAccManagement", new { id = item.AccountID })">@Html.DisplayFor(modelItem => item.Fullname)</a></td>
                 <td>@Html.DisplayFor(modelItem => item.CCCD)</td>
                 <td>@Html.DisplayFor(modelItem => item.Email)</td>
                 <td>@Html.DisplayFor(modelItem => item.Phone)</td>
                 <td>@Html.DisplayFor(modelItem => item.Position)</td>
                 <td>
-                    <form asp-action="ToggleStatus" asp-route-id="@item.AccountID" method="post">
-                        <button type="submit" class="btn btn-sm @(item.Status == "Active" ? "btn-success" : "btn-danger")">
-                            @(item.Status == "Active" ? "Mở" : "Khóa")
+                    <form action="@Url.Action("ToggleStatus", "StaffAccManagement", new { id = item.AccountID })" method="post">
+                        <button type="submit" class="btn btn-sm @(item.Status != "Blocked" ? "btn-success" : "btn-danger")">
+                            @(item.Status != "Blocked" ? "Mở" : "Khóa")
                         </button>
                     </form>
                 </td>

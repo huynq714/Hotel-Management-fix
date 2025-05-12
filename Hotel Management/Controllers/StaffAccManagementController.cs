@@ -13,6 +13,7 @@ namespace Hotel_Management.Controllers
         private Hotel_ManagementEntities db = new Hotel_ManagementEntities();
 
         // GET: StaffAccManagement
+        [HttpGet]
         public ActionResult Index()
         {
             var staffs = db.Staffs.Include("s => s.Account").Select(s => new StaffViewModel
@@ -29,6 +30,26 @@ namespace Hotel_Management.Controllers
 
             return View(staffs);
         }
-    }
+        [HttpPost]
+        public ActionResult ToggleStatus(int? id)
+        {
+            var account = db.Accounts.Find(id);
 
+            if (account == null)
+            {
+                return HttpNotFound();
+            }
+            if (account.Status != "Blocked")
+            {
+                account.Status = "Blocked";
+            }
+            else
+            {
+                account.Status = "Active";
+            }
+            //account.Status = !account.Status;
+            db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+    }
 }
