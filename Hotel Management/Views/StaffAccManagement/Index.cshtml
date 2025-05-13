@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Hotel_Management.Models.StaffViewModel>
+@{
+    ViewBag.Title = "Quản lí nhân viên";
+}
+
+
+<h1>Quản lý Nhân viên</h1>
+
+<p>
+    <a class="btn btn-primary" href='@Url.Action("Create", "StaffAccManagement")'>Thêm Nhân viên</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Username)</th>
+            <th>@Html.DisplayNameFor(model => model.Fullname)</th>
+            <th>@Html.DisplayNameFor(model => model.CCCD)</th>
+            <th>@Html.DisplayNameFor(model => model.Email)</th>
+            <th>@Html.DisplayNameFor(model => model.Phone)</th>
+            <th>@Html.DisplayNameFor(model => model.Position)</th>
+            <th>@Html.DisplayNameFor(model => model.Status)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr style="cursor: pointer;" onclick="window.location='@Url.Action("Details", "StaffAccManagement", new { id = item.AccountID })';">
+                <td>@Html.DisplayFor(modelItem => item.Username)</td>
+                <td>@Html.DisplayFor(modelItem => item.Fullname)</td>
+                <td>@Html.DisplayFor(modelItem => item.CCCD)</td>
+                <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                <td>@Html.DisplayFor(modelItem => item.Position)</td>
+                <td>
+                    <form action="@Url.Action("ToggleStatus", "StaffAccManagement", new { id = item.AccountID })" method="post">
+                        <button type="submit" class="btn btn-sm @(item.Status != "Blocked" ? "btn-success" : "btn-danger")">
+                            @(item.Status != "Blocked" ? "Mở" : "Khóa")
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
