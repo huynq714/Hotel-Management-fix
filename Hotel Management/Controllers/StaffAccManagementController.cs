@@ -156,6 +156,67 @@ namespace Hotel_Management.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: StaffAccManagement/Create
+        [HttpGet]
+        public ActionResult Create()
+        {
+            CreateStaffViewModel model = new CreateStaffViewModel();
+            return View(model);
+        }
 
+        // POST: StaffAccManagement/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(CreateStaffViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                // Kiểm tra trùng Username
+                var existing = db.Accounts.FirstOrDefault(a => a.Username == model.Username);
+                if (existing != null)
+                {
+                    ModelState.AddModelError("UserName", "Tên đăng nhập đã tồn tại.");
+                    return View(model);
+                }
+
+                var newAccount = new Account
+                {
+                    Username = model.Username,
+                    PasswordHash = HashPassword(model.Password),// Cần mã hóa mật khẩu trong ứng dụng thực tế
+                    Role = "Staff",
+                    Status = "Active"
+                };
+
+                db.Accounts.Add(newAccount);
+                await db.SaveChangesAsync(); // Lưu account để có AccountID
+
+                var newStaff = new Staff
+                {
+                    AccountID = newAccount.AccountID,
+                    FullName = model.Fullname,
+                    CCCD = model.CCCD,
+                    Email = model.Email,
+                    Phone = model.Phone,
+                    Position = model.Position
+                };
+
+                db.Staffs.Add(newStaff);
+                await db.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
+        }
+
+        private string HashPassword(string password)
+        {
+            using (var sha = System.Security.Cryptography.SHA256.Create())
+            {
+                var bytes = System.Text.Encoding.UTF8.GetBytes(password);
+                var hash = sha.ComputeHash(bytes);
+                return Convert.ToBase64String(hash);
+            }
+        }
     }
 }

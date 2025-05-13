@@ -1,0 +1,82 @@
+﻿@model Hotel_Management.Models.CreateStaffViewModel
+@{
+    ViewBag.Title = "Quản lí nhân viên";
+}
+
+<h1>Thêm Nhân Viên</h1>
+
+<h4>Thông tin nhân viên</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form class="form-control" action='@Url.Action("Create", "StaffAccManagement")' method="post">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Username, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.Password, new
+                {
+                    @class = "form-control",
+                    type = "text",
+                    autocomplete = "off",
+                    Value = Model.Password
+                })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fullname, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.Fullname, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Fullname, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CCCD, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.CCCD, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CCCD, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Phone, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.Phone, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Position, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.Position, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group mt-2">
+                <input type="submit" value="Tạo" class="btn btn-primary form-control" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a href='@Url.Action("Index", "StaffAccManagement")'>Quay lại danh sách</a>
+</div>
+
+<style>
+    input{
+        max-width: none;
+    }
+</style>
+@*@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}*@
