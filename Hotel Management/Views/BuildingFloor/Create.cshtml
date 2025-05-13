@@ -1,0 +1,56 @@
+﻿@model Hotel_Management.Models.BuildingFloorViewModel
+
+@{
+    ViewBag.Title = "Thêm mới Tòa nhà và Tầng";
+}
+
+<h2>Thêm mới Tòa nhà và Tầng</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.BuildingName)
+        @Html.TextBoxFor(model => model.BuildingName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.BuildingName)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Address)
+        @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Address)
+    </div>
+
+    <h3>Danh sách các tầng</h3>
+    <div id="floors-container">
+        <div class="floor-row">
+            <div class="form-group">
+                <label for="floorNumber">Số tầng</label>
+                <input type="number" name="Floors[0].FloorNumber" class="form-control" required />
+            </div>
+        </div>
+    </div>
+
+
+
+    <br />
+    <br />
+    <button type="submit" class="btn btn-primary">Lưu</button>
+}
+
+<script>
+    var floorIndex = 1;
+    $('#add-floor-btn').click(function () {
+        var floorHtml = `
+            <div class="floor-row">
+                <div class="form-group">
+                    <label for="floorNumber">Số tầng</label>
+                    <input type="number" name="Floors[${floorIndex}].FloorNumber" class="form-control" required />
+                </div>
+            </div>
+        `;
+        $('#floors-container').append(floorHtml);
+        floorIndex++;
+    });
+</script>

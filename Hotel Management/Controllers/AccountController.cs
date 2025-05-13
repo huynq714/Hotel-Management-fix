@@ -76,6 +76,7 @@ namespace Hotel_Management.Controllers
                         existingAdmin.FullName = model.FullName;
                         existingAdmin.Phone = model.Phone;
                         db.SaveChanges();
+                        TempData["Message"] = "Cập nhật thông tin thành công!"; // Thêm TempData
                         return View(model);
                     }
                     return HttpNotFound();
@@ -90,6 +91,7 @@ namespace Hotel_Management.Controllers
                         existingStaff.CCCD = model.CCCD;
                         existingStaff.Email = model.Email;
                         db.SaveChanges();
+                        TempData["Message"] = "Cập nhật thông tin thành công!"; // Thêm TempData
                         return View(model);
                     }
                     return HttpNotFound();
@@ -104,15 +106,17 @@ namespace Hotel_Management.Controllers
                         existingCustomer.CCCD = model.CCCD;
                         existingCustomer.Email = model.Email;
                         db.SaveChanges();
+                        TempData["Message"] = "Cập nhật thông tin thành công!"; // Thêm TempData
                         return View(model);
                     }
                     return HttpNotFound();
                 }
-            }else
+            }
+            else
             {
                 return RedirectToAction("Index", "Home");
             }
-             return View(model);
+            return View(model);
         }
 
         [HttpGet]
@@ -124,7 +128,7 @@ namespace Hotel_Management.Controllers
             return View(model);
         }
 
-        [HttpPost]  
+        [HttpPost]
         public ActionResult ChangePassword(AccountChangePassViewModel model)
         {
             model.UserName = Session["User"].ToString();
@@ -145,7 +149,8 @@ namespace Hotel_Management.Controllers
                 {
                     account.PasswordHash = HashPassword(model.NewPassword);
                     db.SaveChanges();
-                    return RedirectToAction("AccountInfo", "Account");
+                    TempData["Message"] = "Đổi mật khẩu thành công!"; // Thêm TempData
+                    return RedirectToAction("ChangePassword", "Account");
                 }
             }
             return View(model);

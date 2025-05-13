@@ -1,83 +1,102 @@
 ﻿@model Hotel_Management.Models.AccountInfoViewModel
 @{
-    ViewBag.Title = "Info";
+    ViewBag.Title = "Thông tin tài khoản";
 }
 <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-image: url('@Url.Content("~/Image/hotell.jpg")');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center center;
-            height: 100vh; /* Đảm bảo nền phủ đầy màn hình */
-        }
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-image: url('@Url.Content("~/Image/hotell.jpg")');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        height: 100vh;
+    }
 
-        .form-container {
-            width: 450px;
-            margin: 100px auto;
-            background: rgba(255, 255, 255, 0.8); /* Nền trong suốt để hòa hợp với ảnh nền */
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1)
-        }
+    .form-container {
+        width: 450px;
+        margin: 100px auto;
+        background: rgba(255, 255, 255, 0.8);
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1)
+    }
 
-        .form-container h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #333;
-        }
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #333;
+    }
 
-        .form-group {
-            margin-bottom: 18px;
-            width: 100%;
-        }
+    .form-group {
+        margin-bottom: 18px;
+        width: 100%;
+    }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
-        }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #555;
+    }
 
-        .form-group input {
-            width: 100%;
-            max-width: none;
-            padding: 10px;
-            box-sizing: border-box;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
+    .form-group input {
+        width: 100%;
+        max-width: none;
+        padding: 10px;
+        box-sizing: border-box;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
 
-        .btn-submit {
-            width: 100%;
-            padding: 12px;
-            background-color: #3498db;
-            border: none;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
+    .btn-submit {
+        width: 100%;
+        padding: 12px;
+        background-color: #3498db;
+        border: none;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
 
-        .btn-submit:hover {
-            background-color: #2980b9;
-        }
+    .btn-submit:hover {
+        background-color: #2980b9;
+    }
 
-        .text-danger {
-            color: red;
-            font-size: 13px;
-        }
+    .text-danger {
+        color: red;
+        font-size: 13px;
+    }
 
-        .read-only{
-            background-color: gray;
-        }
+    .read-only {
+        background-color: gray;
+    }
+
+    .alert {
+        margin-bottom: 20px;
+        padding: 15px;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border-color: #c3e6cb;
+    }
 </style>
 
 <div class="form-container">
     <h2>Thông tin tài khoản</h2>
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Message"]
+        </div>
+    }
 
     @using (Html.BeginForm())
     {

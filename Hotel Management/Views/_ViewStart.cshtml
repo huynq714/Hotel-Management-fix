@@ -1,3 +1,19 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    var role = System.Web.HttpContext.Current.Session["Role"] as string;
+
+    if (!string.IsNullOrEmpty(role))
+    {
+        if (role == "Customer")
+        {
+            Layout = "~/Views/Shared/CustomerLayout.cshtml";
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml"; // Layout mặc định cho Admin, Staff
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml"; // Nếu chưa đăng nhập, dùng layout mặc định
+    }
 }

@@ -1,0 +1,50 @@
+﻿@model Hotel_Management.Models.BuildingFloorViewModel
+
+@{
+    ViewBag.Title = "Chỉnh sửa Tòa nhà và Tầng";
+}
+
+<h2>Chỉnh sửa Tòa nhà và Tầng</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.BuildingID)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.BuildingName)
+        @Html.TextBoxFor(model => model.BuildingName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.BuildingName, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Address)
+        @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+    </div>
+
+    <h3>Danh sách các tầng</h3>
+    <div id="floors-container">
+        @for (int i = 0; i < Model.Floors.Count; i++)
+        {
+            <div class="floor-row" data-floor-id="@Model.Floors[i].FloorID">
+                @Html.HiddenFor(model => model.Floors[i].FloorID)
+                <div class="form-group">
+                    <label for="floorNumber">Số tầng</label>
+                    @Html.TextBoxFor(model => model.Floors[i].FloorNumber, new { @class = "form-control", required = "required", min = "0" })
+                    @Html.ValidationMessageFor(model => model.Floors[i].FloorNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+    </div>
+
+    <br />
+    <br />
+    <button type="submit" class="btn btn-primary">Cập nhật</button>
+}
+<script>
+    $(document).ready(function () {
+        // Không cần code JavaScript để thêm tầng
+        // Loại bỏ nút thêm tầng và chức năng xóa tầng
+    });
+</script>
