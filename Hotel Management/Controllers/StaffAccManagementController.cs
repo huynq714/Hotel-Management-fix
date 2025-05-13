@@ -2,6 +2,7 @@ using Hotel_Management.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -59,7 +60,7 @@ namespace Hotel_Management.Controllers
         {
             if (id == null)
             {
-                return HttpNotFound();
+                return RedirectToAction(nameof(Index));
             }
 
             var staff = db.Staffs
@@ -83,6 +84,59 @@ namespace Hotel_Management.Controllers
             }
 
             return View(staff);
+        }
+
+        // POST: StaffAccManagement/Edit/{id}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, StaffViewModel model)
+        {
+            if (id != model.AccountID)
+            {
+                return HttpNotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var accountToUpdate = db.Accounts.Find(model.AccountID);
+                var staffToUpdate = db.Staffs.FirstOrDefault(s => s.AccountID == model.AccountID);
+
+                if (accountToUpdate == null || staffToUpdate == null)
+                {
+                    return HttpNotFound();
+                }
+
+                accountToUpdate.Status = model.Status;
+
+                staffToUpdate.FullName = model.Fullname;
+                staffToUpdate.CCCD = model.CCCD;
+                staffToUpdate.Email = model.Email;
+                staffToUpdate.Phone = model.Phone;
+                staffToUpdate.Position = model.Position;
+
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!StaffExists(model.AccountID))
+                    {
+                        return HttpNotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Details), new { id = model.AccountID });
+            }
+            return View(model);
+        }
+
+        private bool StaffExists(int? id)
+        {
+            return db.Staffs.Any(e => e.AccountID == id);
         }
     }
 }

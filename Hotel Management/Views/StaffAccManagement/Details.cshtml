@@ -7,9 +7,8 @@
 
 <div>
     <hr />
-    <form action='@Url.Action("Edit", "StaffAccManagement", new { id = @Model.AccountID })' method="post" >
-        @Html.HiddenFor(model => model.AccountID)
-        @Html.HiddenFor(model => model.Username)
+    <form action='@Url.Action("Edit", "StaffAccManagement", new { id = @Model.AccountID })' method="post">
+        @Html.AntiForgeryToken()
         <dl class="row">
             <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Username)</dt>
             <dd class="col-sm-10">@Html.DisplayFor(model => model.Username)</dd>
@@ -44,15 +43,18 @@
                 @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
             </dd>
 
-            @Html.HiddenFor(model => model.Status)
             <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Status)</dt>
             <dd class="col-sm-10">@Html.DisplayFor(model => model.Status)</dd>
+
+            @Html.HiddenFor(model => model.AccountID)
+            @Html.HiddenFor(model => model.Username)
+            @Html.HiddenFor(model => model.Status)
         </dl>
         <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
     </form>
     <div style="display: inline-flex ">
         <form action='@Url.Action("Delete", "StaffAccManagement", new { id = @Model.AccountID })' method="post" class="mt-2">
-            @Html.HiddenFor(model => model.AccountID)
+
             <button type="submit" class="btn btn-danger">Xóa Nhân Viên</button>
         </form>
         <a href= '@Url.Action("Index", "StaffAccManagement")'  class="btn btn-secondary mt-2 mx-3">Quay lại danh sách</a>
