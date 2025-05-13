@@ -53,13 +53,37 @@
         <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
     </form>
     <div style="display: inline-flex ">
-        <form action='@Url.Action("Delete", "StaffAccManagement", new { id = @Model.AccountID })' method="post" class="mt-2">
-
+        @*<form action='@Url.Action("Delete", "StaffAccManagement", new { id = @Model.AccountID })' method="post" class="mt-2"
+              onsubmit="return confirm('Bạn có chắc chắn muốn xóa nhân viên này không?');">
+            @Html.AntiForgeryToken()
             <button type="submit" class="btn btn-danger">Xóa Nhân Viên</button>
-        </form>
-        <a href= '@Url.Action("Index", "StaffAccManagement")'  class="btn btn-secondary mt-2 mx-3">Quay lại danh sách</a>
+        </form>*@
+        <button type="button" class="btn btn-danger mt-2" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+            Xóa Nhân Viên
+        </button>
+        <a href='@Url.Action("Index", "StaffAccManagement")' class="btn btn-secondary mt-2 mx-3">Quay lại danh sách</a>
     </div>
-
+    @*from confirm delete staff account *@
+    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteConfirmationModalLabel">Xác Nhận Xóa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn xóa nhân viên này không? Hành động này không thể hoàn tác.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <form action='@Url.Action("Delete", "StaffAccManagement", new { id = @Model.AccountID })' method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger">Xóa</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <style>

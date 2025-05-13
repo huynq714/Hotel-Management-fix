@@ -1,4 +1,4 @@
-using Hotel_Management.Models;
+﻿using Hotel_Management.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,7 +18,7 @@ namespace Hotel_Management.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var staffs = db.Staffs.Include("s => s.Account").Select(s => new StaffViewModel
+            var staffs = db.Staffs.Include(s => s.Account).Select(s => new StaffViewModel
             {
                 AccountID = s.AccountID,
                 Username = s.Account.Username,
@@ -64,7 +64,7 @@ namespace Hotel_Management.Controllers
             }
 
             var staff = db.Staffs
-                .Include("s => s.Account")
+                .Include(s => s.Account)
                 .Where(s => s.AccountID == id)
                 .Select(s => new StaffViewModel
                 {
@@ -138,5 +138,24 @@ namespace Hotel_Management.Controllers
         {
             return db.Staffs.Any(e => e.AccountID == id);
         }
+
+        // POST: StaffAccManagement/Delete/{id}
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(int id)
+        {
+            var staffToDelete = await db.Staffs.Include(s => s.Account).FirstOrDefaultAsync(s => s.AccountID == id);
+            if (staffToDelete == null)
+            {
+                return HttpNotFound();
+            }
+
+            db.Accounts.Remove(staffToDelete.Account); // Xóa cả account liên quan
+            db.Staffs.Remove(staffToDelete);
+            await db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+
     }
 }
