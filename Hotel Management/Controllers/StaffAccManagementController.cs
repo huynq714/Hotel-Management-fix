@@ -1,11 +1,9 @@
 ﻿using Hotel_Management.Models;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Hotel_Management.Controllers
@@ -16,9 +14,33 @@ namespace Hotel_Management.Controllers
 
         // GET: StaffAccManagement
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
-            var staffs = db.Staffs.Include(s => s.Account).Select(s => new StaffViewModel
+            var staffs = db.Staffs.Include(s => s.Account).AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                int searchId;
+                if (int.TryParse(searchString, out searchId))
+                {
+                    staffs = staffs.Where(s => s.AccountID == searchId ||
+                                             s.Account.Username.Contains(searchString) ||
+                                             s.Email.Contains(searchString) ||
+                                             s.Phone.Contains(searchString) ||
+                                             s.CCCD.Contains(searchString) ||
+                                             s.Position.Contains(searchString));
+                }
+                else
+                {
+                    staffs = staffs.Where(s => s.Account.Username.Contains(searchString) ||
+                                             s.Email.Contains(searchString) ||
+                                             s.Phone.Contains(searchString) ||
+                                             s.CCCD.Contains(searchString) ||
+                                             s.Position.Contains(searchString));
+                }
+            }
+
+            var staffList = staffs.Select(s => new StaffViewModel
             {
                 AccountID = s.AccountID,
                 Username = s.Account.Username,
@@ -30,8 +52,9 @@ namespace Hotel_Management.Controllers
                 Status = s.Account.Status
             }).ToList();
 
-            return View(staffs);
+            return View(staffList);
         }
+
         [HttpPost]
         public ActionResult ToggleStatus(int? id)
         {

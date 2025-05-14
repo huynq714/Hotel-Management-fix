@@ -24,29 +24,59 @@
 
     <h3>Danh sách các tầng</h3>
     <div id="floors-container">
-        <div class="floor-row">
-            <div class="form-group">
-                <label for="floorNumber">Số tầng</label>
-                <input type="number" name="Floors[0].FloorNumber" class="form-control" required />
+        @if (Model.Floors != null && Model.Floors.Count > 0)
+        {
+            int floorIndex = 0;
+            foreach (var floor in Model.Floors)
+            {
+                <div class="floor-row">
+                    <div class="form-group">
+                        <label for="floorNumber">Số tầng</label>
+                        <input type="number" name="Floors[@floorIndex].FloorNumber" class="form-control" value="@floor.FloorNumber" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="totalRooms">Tổng số phòng</label>
+                        <input type="number" name="Floors[@floorIndex].TotalRooms" class="form-control" value="@floor.TotalRooms" required />
+                    </div>
+                </div>
+                floorIndex++;
+            }
+        }
+        else
+        {
+            <div class="floor-row">
+                <div class="form-group">
+                    <label for="floorNumber">Số tầng</label>
+                    <input type="number" name="Floors[0].FloorNumber" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label for="totalRooms">Số phòng mỗi tầng</label>
+                    <input type="number" name="Floors[0].TotalRooms" class="form-control" required />
+                </div>
             </div>
-        </div>
+        }
     </div>
 
 
+    <br />
+    <br />
 
-    <br />
-    <br />
     <button type="submit" class="btn btn-primary">Lưu</button>
 }
 
 <script>
-    var floorIndex = 1;
+    var floorIndex = @Model.Floors?.Count ?? 1; // Tự động bắt đầu từ chỉ số tầng tiếp theo
+
     $('#add-floor-btn').click(function () {
         var floorHtml = `
             <div class="floor-row">
                 <div class="form-group">
                     <label for="floorNumber">Số tầng</label>
                     <input type="number" name="Floors[${floorIndex}].FloorNumber" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label for="totalRooms">Tổng số phòng</label>
+                    <input type="number" name="Floors[${floorIndex}].TotalRooms" class="form-control" required />
                 </div>
             </div>
         `;

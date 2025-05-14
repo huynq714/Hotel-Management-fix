@@ -1,17 +1,29 @@
 ﻿@model IEnumerable<Hotel_Management.Models.StaffViewModel>
 @{
-    ViewBag.Title = "Quản lí nhân viên";
+    ViewBag.Title = "Quản lý nhân viên";
 }
-
 
 <h1>Quản lý Nhân viên</h1>
 
 <p>
     <a class="btn btn-primary" href='@Url.Action("Create", "StaffAccManagement")'>Thêm Nhân viên</a>
 </p>
+@using (Html.BeginForm("Index", "StaffAccManagement", FormMethod.Get))
+{
+    <div class="form-inline mb-3">
+        <div class="form-group mr-2">
+            <label for="searchString" class="mr-1">Tìm kiếm (ID, Username, Email, Số điện thoại, CCCD, Vị trí):</label>
+            <input type="text" name="searchString" value="@Request.QueryString["searchString"]" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary mr-2">Tìm kiếm</button>
+        <a href="@Url.Action("Index")" class="btn btn-secondary">Bỏ lọc</a>
+    </div>
+}
+
 <table class="table">
     <thead>
         <tr>
+            <th>@Html.DisplayNameFor(model => model.AccountID)</th>
             <th>@Html.DisplayNameFor(model => model.Username)</th>
             <th>@Html.DisplayNameFor(model => model.Fullname)</th>
             <th>@Html.DisplayNameFor(model => model.CCCD)</th>
@@ -26,6 +38,7 @@
         @foreach (var item in Model)
         {
             <tr style="cursor: pointer;" onclick="window.location='@Url.Action("Details", "StaffAccManagement", new { id = item.AccountID })';">
+                <td>@Html.DisplayFor(modelItem => item.AccountID)</td>
                 <td>@Html.DisplayFor(modelItem => item.Username)</td>
                 <td>@Html.DisplayFor(modelItem => item.Fullname)</td>
                 <td>@Html.DisplayFor(modelItem => item.CCCD)</td>

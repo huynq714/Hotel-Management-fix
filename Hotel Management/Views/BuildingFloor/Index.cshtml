@@ -5,14 +5,26 @@
 
 <h2>Danh sách Tòa nhà và Tầng</h2>
 
+@using (Html.BeginForm("Index", "BuildingFloor", FormMethod.Get))
+{
+    <div class="form-inline mb-3">
+        <div class="form-group mr-2">
+            <label for="searchString" class="mr-1">Tìm kiếm (ID, Tên, Địa chỉ):</label>
+            <input type="text" name="searchString" value="@Request.QueryString["searchString"]" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary mr-2">Tìm kiếm</button>
+        <a href="@Url.Action("Index")" class="btn btn-secondary">Bỏ lọc</a>
+    </div>
+}
+
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
             <th>Building ID</th>
             <th>Tên Tòa nhà</th>
             <th>Địa chỉ</th>
-            <th>Tầng</th>
-            <th>Hành động</th>
+            <th>Danh sách Tầng</th>
+            <th>Thao tác</th>
         </tr>
     </thead>
     <tbody>
@@ -26,25 +38,31 @@
                     @if (building.Floors != null && building.Floors.Any())
                     {
                         <ul style="padding-left: 20px;">
-                            @foreach (var floor in building.Floors)
+                            @foreach (var floor in building.Floors.OrderBy(f => f.FloorNumber))
                             {
                                 <li>
-                                    Tầng @(floor.FloorNumber < 0 ? 0 : floor.FloorNumber) (Floor ID: @floor.FloorID)
+                                    <strong>Số tầng:</strong>
                                     @if (floor.FloorNumber < 0)
                                     {
-                                        <span class="text-danger"> (Số tầng không hợp lệ)</span>
+                                        <span class="text-danger">Dữ liệu không hợp lệ (floor < 0)</span>
                                     }
+                                    else
+                                    {
+                                        @floor.FloorNumber
+                                    }
+                                    -
+                                    <strong>Số phòng mỗi tầng:</strong> @floor.TotalRooms
                                 </li>
                             }
                         </ul>
                     }
                     else
                     {
-                        <p>Không có tầng nào</p>
+                        <span>Không có tầng nào</span>
                     }
                 </td>
                 <td>
-                    @Html.ActionLink("Chỉnh sửa", "Edit", new { id = building.BuildingID }, new { @class = "btn btn-primary btn-sm" }) |
+                    @Html.ActionLink("Sửa", "Edit", new { id = building.BuildingID }, new { @class = "btn btn-primary btn-sm" }) |
                     @Html.ActionLink("Xóa", "Delete", new { id = building.BuildingID }, new { onclick = "return confirm('Bạn có chắc muốn xóa không?')", @class = "btn btn-danger btn-sm" })
                 </td>
             </tr>
