@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Hotel_Management.Models.RoomSearchResult>
+@using Hotel_Management.Models
+
+@{
+    ViewData["Title"] = "Tìm kiếm phòng";
+}
+
+<style>
+    .form-group {
+        margin-right: 10px;
+    }
+</style>
+
+<h1>@ViewData["Title"]</h1>
+
+<form action='@Url.Action("Index", "RoomSearch")' method="post" style="display: inline-flex">
+    <div class="form-group">
+        <label for="CheckInDate">Ngày nhận phòng:</label>
+        <input type="date" class="form-control" id="CheckInDate" name="CheckInDate" required value="@(ViewBag.CheckInDate?.ToString("yyyy-MM-dd"))">
+    </div>
+    <div class="form-group">
+        <label for="CheckOutDate">Ngày trả phòng:</label>
+        <input type="date" class="form-control" id="CheckOutDate" name="CheckOutDate" required value="@(ViewBag.CheckOutDate?.ToString("yyyy-MM-dd"))">
+    </div>
+
+    <div class="form-group">
+        <label for="NumberAdult">Số người lớn:</label>
+        <input type="number" class="form-control" id="NumberAdult" name="NumberAdult" min="1" value="@ViewBag.NumberAdult">
+    </div>
+    <div class="form-group">
+        <label for="NumberChild">Số trẻ em:</label>
+        <input type="number" class="form-control" id="NumberChild" name="NumberChild" min="0" value="@ViewBag.NumberChild">
+    </div>
+    <div class="form-group">
+        <label for="RoomTypeID">Loại phòng:</label>
+        <select class="form-control" id="RoomTypeID" name="RoomTypeID">
+            <option value="">Tất cả</option>
+            @foreach (var roomType in ViewBag.RoomTypes as List<RoomType>)
+            {
+                <option value="@roomType.RoomTypeID">@roomType.TypeName</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="BuildingID">Tòa nhà:</label>
+        <select class="form-control" id="BuildingID" name="BuildingID">
+            <option value="">Tất cả</option>
+            @foreach (var building in ViewBag.Buildings as List<Building>)
+            {
+                <option value="@building.BuildingID">@building.BuildingName</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Price">Giá tối đa:</label>
+        <input type="number" class="form-control" id="Price" name="Price" min="0" value="@ViewBag.Price">
+    </div>
+    <div class="form-group">
+        <label></label>
+        <button type="submit" class="btn btn-primary form-control">Tìm kiếm</button>
+    </div>
+</form>
+
+<hr />
+
+@if (Model != null && Model.Any())
+{
+    <h2>Kết quả tìm kiếm</h2>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card" onclick="window.location.href='@Url.Action("Details", "RoomSearch", new { id = item.RoomID })';" style="cursor: pointer; overflow: hidden">
+                    <div class="card-img-top" style="height: 200px; background-color: #ddd;">
+                        <img src="~/Image/hotel.jpg" width="100%" height="100%"/>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">@item.RoomNumber - @item.TypeName</h5>
+                        <p class="card-text">Tòa nhà: @item.BuildingName, Tầng: @item.FloorNumber</p>
+                        <p class="card-text">Địa chỉ: @item.Address</p>
+                        <p class="card-text">Sức chứa: @item.MaxAdult người lớn, @item.MaxChild trẻ em</p>
+                        <p class="card-text">Giá: @item.Price</p>
+                        <p class="card-text">Trạng thái: @item.Status</p>
+                        @*<a href="@Url.Action("Details", "RoomSearch", new { id = item.RoomID })" class="btn btn-primary stretched-link">Xem chi tiết</a>*@
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else if (Model != null)
+{
+    <p>Không tìm thấy phòng phù hợp.</p>
+}
