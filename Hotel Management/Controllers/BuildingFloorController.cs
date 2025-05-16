@@ -51,8 +51,15 @@ namespace Hotel_Management.Controllers
         // GET: BuildingFloor/Create
         public ActionResult Create()
         {
-            return View(new BuildingFloorViewModel { Floors = new List<Floor>() });
+            return View(new BuildingFloorViewModel
+            {
+                Floors = new List<Floor>
+        {
+            new Floor(),
         }
+            });
+        }
+
 
         // POST: BuildingFloor/Create
         [HttpPost]
@@ -65,6 +72,7 @@ namespace Hotel_Management.Controllers
                 {
                     BuildingName = model.BuildingName,
                     Address = model.Address
+                    
                 };
                 db.Buildings.Add(building);
                 db.SaveChanges();
@@ -77,6 +85,7 @@ namespace Hotel_Management.Controllers
                         {
                             floor.BuildingID = building.BuildingID;
                             db.Floors.Add(floor);
+                            
                         }
                     }
                     db.SaveChanges();
@@ -190,21 +199,29 @@ namespace Hotel_Management.Controllers
             return View(model);
         }
 
-        // POST: BuildingFloor/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
-            Building building = db.Buildings.Find(id);
+            var building = db.Buildings.Include("Floors").FirstOrDefault(b => b.BuildingID == id);
             if (building != null)
             {
-                var floors = db.Floors.Where(f => f.BuildingID == id).ToList();
-                db.Floors.RemoveRange(floors);
+                // Xóa các tầng
+                foreach (var floor in building.Floors.ToList())
+                {
+                    db.Floors.Remove(floor);
+                }
+
+                // Xóa tòa nhà
                 db.Buildings.Remove(building);
                 db.SaveChanges();
+
+                TempData["SuccessMessage"] = "Tòa nhà đã được xóa thành công.";
             }
+
             return RedirectToAction("Index");
         }
+
 
         protected override void Dispose(bool disposing)
         {

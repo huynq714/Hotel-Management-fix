@@ -2,46 +2,63 @@
 
 @{
     ViewBag.Title = "Xóa Tòa nhà";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Xóa Tòa nhà</h2>
+<div class="container d-flex justify-content-center">
+    <div class="col-md-8">
+        <h2 class="mb-4 text-danger">⚠️ Xác nhận xóa tòa nhà</h2>
 
-<h4>Bạn có chắc chắn muốn xóa tòa nhà sau không?</h4>
-<hr />
-<dl class="dl-horizontal">
-    <dt>Mã tòa nhà</dt>
-    <dd>@Model.BuildingID</dd>
+        <div class="alert alert-warning">
+            <strong>Bạn có chắc chắn muốn xóa tòa nhà sau không?</strong>
+        </div>
 
-    <dt>Tên tòa nhà</dt>
-    <dd>@Model.BuildingName</dd>
+        <div class="mb-4">
+            <div class="row mb-2">
+                <label class="col-md-4 fw-bold">Mã tòa nhà:</label>
+                <div class="col-md-8">@Model.BuildingID</div>
+            </div>
+            <div class="row mb-2">
+                <label class="col-md-4 fw-bold">Tên tòa nhà:</label>
+                <div class="col-md-8">@Model.BuildingName</div>
+            </div>
+            <div class="row mb-2">
+                <label class="col-md-4 fw-bold">Địa chỉ:</label>
+                <div class="col-md-8">@Model.Address</div>
+            </div>
+        </div>
 
-    <dt>Địa chỉ</dt>
-    <dd>@Model.Address</dd>
-</dl>
-
-@if (Model.Floors != null && Model.Floors.Any())
-{
-    <h4>Danh sách tầng sẽ bị xóa:</h4>
-    <table class="table table-bordered">
-        <tr>
-            <th>Tầng</th>
-            <th>Tổng số phòng</th>
-        </tr>
-        @foreach (var floor in Model.Floors)
+        @if (Model.Floors != null && Model.Floors.Any())
         {
-            <tr>
-                <td>@floor.FloorNumber</td>
-                <td>@floor.TotalRoomsOfFloor</td>
-            </tr>
+            <h5 class="mb-2">🧱 Danh sách tầng sẽ bị xóa:</h5>
+            <table class="table table-bordered table-sm">
+                <thead class="table-light">
+                    <tr>
+                        <th class="text-center">Số tầng</th>
+                        <th class="text-center">Số phòng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var floor in Model.Floors)
+                    {
+                        <tr>
+                            <td class="text-center">@floor.FloorNumber</td>
+                            <td class="text-center">@floor.TotalRoomsOfFloor</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
-    </table>
-}
 
-@using (Html.BeginForm("Delete", "BuildingFloor", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.BuildingID)
+        @using (Html.BeginForm("Delete", "BuildingFloor", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.BuildingID)
 
-    <input type="submit" value="Xóa" class="btn btn-danger" />
-    @Html.ActionLink("Hủy", "Index", null, new { @class = "btn btn-secondary" })
-}
+            <div class="d-flex justify-content-between mt-4">
+                <button type="submit" class="btn btn-danger">🗑️ Xóa</button>
+                @Html.ActionLink("🔙 Hủy", "Index", null, new { @class = "btn btn-secondary" })
+            </div>
+        }
+    </div>
+</div>
