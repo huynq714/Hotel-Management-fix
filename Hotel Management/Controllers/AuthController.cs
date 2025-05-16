@@ -145,9 +145,14 @@ namespace Hotel_Management.Controllers
 
         public ActionResult Logout()
         {
-            Session.Clear(); // hoặc: Session.Abandon();
-            return RedirectToAction("Login");
+            // Xoá session
+            Session.Clear();
+            Session.Abandon();
+
+            // Redirect về trang Home/Index (sẽ dùng DefaultLayout)
+            return RedirectToAction("Index", "Home");
         }
+
 
 
     }

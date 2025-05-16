@@ -1,4 +1,4 @@
-﻿@model Hotel_Management.Models.BuildingFloorViewModel
+﻿﻿@model Hotel_Management.Models.BuildingFloorViewModel
 
 @{
     ViewBag.Title = "Thêm mới Tòa nhà và Tầng";
@@ -36,7 +36,7 @@
                     </div>
                     <div class="form-group">
                         <label for="totalRooms">Tổng số phòng</label>
-                        <input type="number" name="Floors[@floorIndex].TotalRooms" class="form-control" value="@floor.TotalRooms" required />
+                        <input type="number" name="Floors[@floorIndex].TotalRooms" class="form-control" value="@floor.TotalRoomsOfFloor" required />
                     </div>
                 </div>
                 floorIndex++;

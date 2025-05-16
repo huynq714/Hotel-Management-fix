@@ -1,0 +1,142 @@
+﻿@model Hotel_Management.Models.RoomViewModel
+
+@{
+    ViewBag.Title = "Chỉnh sửa phòng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .full-screen-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 0;
+        background-color: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 700px;
+        background: white;
+        padding: 30px 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            min-width: 130px;
+            font-weight: 600;
+            margin-right: 10px;
+            white-space: nowrap;
+        }
+
+    .form-control {
+        flex: 1;
+        padding: 0.4rem 0.6rem;
+        font-size: 1rem;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+    }
+
+    .validation-error {
+        color: red;
+        font-size: 0.9rem;
+        margin-left: 140px;
+        margin-top: -10px;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        min-width: 120px;
+    }
+
+        .btn + .btn {
+            margin-left: 15px;
+        }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: bold;
+    }
+</style>
+
+<div class="full-screen-center">
+    <div class="form-container">
+        <h2>@ViewBag.Title</h2>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.RoomID)
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.BuildingID, "Tòa nhà")
+                @Html.DropDownListFor(m => m.BuildingID,
+                    new SelectList(Model.Buildings, "BuildingID", "BuildingName", Model.BuildingID),
+                    "-- Chọn tòa nhà --",
+                    new { @class = "form-control", id = "BuildingDropdown" })
+            </div>
+            @Html.ValidationMessageFor(m => m.BuildingID, "", new { @class = "validation-error" })
+
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.RoomNumber, "Số phòng")
+                @Html.TextBoxFor(m => m.RoomNumber, new { @class = "form-control" })
+            </div>
+            @Html.ValidationMessageFor(m => m.RoomNumber, "", new { @class = "validation-error" })
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.RoomTypeID, "Loại phòng")
+                @Html.DropDownListFor(m => m.RoomTypeID,
+                    new SelectList(Model.RoomTypes, "RoomTypeID", "TypeName", Model.RoomTypeID),
+                    "-- Chọn loại phòng --",
+                    new { @class = "form-control" })
+            </div>
+            @Html.ValidationMessageFor(m => m.RoomTypeID, "", new { @class = "validation-error" })
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Status, "Trạng thái")
+                @Html.DropDownListFor(m => m.Status, new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "Đang trống", Value = "Đang trống", Selected = Model.Status == "Đang trống" },
+                    new SelectListItem { Text = "Đang dọn dẹp", Value = "Đang dọn dẹp", Selected = Model.Status == "Đang dọn dẹp" },
+                    new SelectListItem { Text = "Đã đặt", Value = "Đã đặt", Selected = Model.Status == "Đã đặt" }
+                }, "Chọn trạng thái", new { @class = "form-control" })
+            </div>
+            @Html.ValidationMessageFor(m => m.Status, "", new { @class = "validation-error" })
+
+            <div class="form-group" style="justify-content: center; margin-top: 30px;">
+                <button type="submit" class="btn btn-primary">Lưu</button>
+                @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-secondary" })
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Nếu cần AJAX tự động load tầng khi chọn tòa nhà
+        $(document).ready(function () {
+            $('#BuildingDropdown').change(function () {
+                var buildingId = $(this).val();
+                $.ajax({
+                    url: '/Room/Edit',
+                    type: 'GET',
+                    data: { buildingId: buildingId },
+                    success: function (result) {
+                        var floorDropdown = $(result).find('#FloorID');
+                        $('#FloorID').html(floorDropdown.html());
+                    }
+                });
+            });
+        });
+    </script>
+}

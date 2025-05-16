@@ -1,4 +1,4 @@
-﻿@model Hotel_Management.Models.BuildingFloorViewModel
+﻿﻿@model Hotel_Management.Models.BuildingFloorViewModel
 
 @{
     ViewBag.Title = "Chỉnh sửa Tòa nhà và Tầng";
@@ -38,8 +38,8 @@
 
                 <div class="form-group">
                     <label for="totalRooms">Tổng số phòng</label>
-                    @Html.TextBoxFor(model => model.Floors[i].TotalRooms, new { @class = "form-control", required = "required", min = "0" })
-                    @Html.ValidationMessageFor(model => model.Floors[i].TotalRooms, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.Floors[i].TotalRoomsOfFloor, new { @class = "form-control", required = "required", min = "0" })
+                    @Html.ValidationMessageFor(model => model.Floors[i].TotalRoomsOfFloor, "", new { @class = "text-danger" })
                 </div>
 
             </div>

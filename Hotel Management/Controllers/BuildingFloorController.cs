@@ -41,7 +41,7 @@ namespace Hotel_Management.Controllers
                 {
                     FloorID = f.FloorID,
                     FloorNumber = f.FloorNumber,
-                    TotalRooms = f.TotalRooms
+                    TotalRoomsOfFloor = f.TotalRoomsOfFloor
                 }).ToList()
             }).ToList();
 
@@ -108,7 +108,7 @@ namespace Hotel_Management.Controllers
                 {
                     FloorID = f.FloorID,
                     FloorNumber = f.FloorNumber,
-                    TotalRooms = f.TotalRooms
+                    TotalRoomsOfFloor = f.TotalRoomsOfFloor
                 }).ToList()
             };
             return View(model);
@@ -136,7 +136,7 @@ namespace Hotel_Management.Controllers
                         if (modelFloor != null)
                         {
                             existingFloor.FloorNumber = modelFloor.FloorNumber;
-                            existingFloor.TotalRooms = modelFloor.TotalRooms;
+                            existingFloor.TotalRoomsOfFloor = modelFloor.TotalRoomsOfFloor;
                             db.Entry(existingFloor).State = EntityState.Modified;
                             modelFloors.Remove(modelFloor);
                         }
@@ -184,7 +184,7 @@ namespace Hotel_Management.Controllers
                 {
                     FloorID = f.FloorID,
                     FloorNumber = f.FloorNumber,
-                    TotalRooms = f.TotalRooms
+                    TotalRoomsOfFloor = f.TotalRoomsOfFloor
                 }).ToList()
             };
             return View(model);

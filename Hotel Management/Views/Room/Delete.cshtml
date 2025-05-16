@@ -1,0 +1,116 @@
+﻿@model Hotel_Management.Models.RoomViewModel
+
+@{
+    ViewBag.Title = "Xoá phòng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .full-screen-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 0;
+        background-color: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 700px;
+        background: white;
+        padding: 30px 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: bold;
+    }
+
+    .form-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            min-width: 130px;
+            font-weight: 600;
+            margin-right: 10px;
+            white-space: nowrap;
+        }
+
+    .form-control-static {
+        flex: 1;
+        height: 38px;
+        font-size: 1rem;
+        background-color: #e9ecef;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 12px;
+    }
+
+    .form-buttons {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+        gap: 20px;
+    }
+
+    .btn {
+        min-width: 120px;
+    }
+
+    .confirm-text {
+        text-align: center;
+        font-size: 1.1rem;
+        color: #dc3545;
+        margin-bottom: 30px;
+        font-weight: 500;
+    }
+</style>
+
+<div class="full-screen-center">
+    <div class="form-container">
+        <h2>@ViewBag.Title</h2>
+
+        <div class="confirm-text">Bạn có chắc chắn muốn xoá phòng này không?</div>
+
+        <div class="form-group">
+            <label>Tòa nhà</label>
+            <div class="form-control-static">@Model.BuildingName</div>
+        </div>
+
+        <div class="form-group">
+            <label>Số phòng</label>
+            <div class="form-control-static">@Model.RoomNumber</div>
+        </div>
+
+        <div class="form-group">
+            <label>Loại phòng</label>
+            <div class="form-control-static">@Model.RoomTypeName</div>
+        </div>
+
+        <div class="form-group">
+            <label>Trạng thái</label>
+            <div class="form-control-static">@Model.Status</div>
+        </div>
+
+        @using (Html.BeginForm("Delete", "Room", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.RoomID)
+
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-danger">Xoá</button>
+                @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary" })
+            </div>
+        }
+    </div>
+</div>

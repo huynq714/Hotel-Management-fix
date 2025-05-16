@@ -1,0 +1,47 @@
+﻿@model Hotel_Management.Models.BuildingFloorViewModel
+
+@{
+    ViewBag.Title = "Xóa Tòa nhà";
+}
+
+<h2>Xóa Tòa nhà</h2>
+
+<h4>Bạn có chắc chắn muốn xóa tòa nhà sau không?</h4>
+<hr />
+<dl class="dl-horizontal">
+    <dt>Mã tòa nhà</dt>
+    <dd>@Model.BuildingID</dd>
+
+    <dt>Tên tòa nhà</dt>
+    <dd>@Model.BuildingName</dd>
+
+    <dt>Địa chỉ</dt>
+    <dd>@Model.Address</dd>
+</dl>
+
+@if (Model.Floors != null && Model.Floors.Any())
+{
+    <h4>Danh sách tầng sẽ bị xóa:</h4>
+    <table class="table table-bordered">
+        <tr>
+            <th>Tầng</th>
+            <th>Tổng số phòng</th>
+        </tr>
+        @foreach (var floor in Model.Floors)
+        {
+            <tr>
+                <td>@floor.FloorNumber</td>
+                <td>@floor.TotalRoomsOfFloor</td>
+            </tr>
+        }
+    </table>
+}
+
+@using (Html.BeginForm("Delete", "BuildingFloor", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.BuildingID)
+
+    <input type="submit" value="Xóa" class="btn btn-danger" />
+    @Html.ActionLink("Hủy", "Index", null, new { @class = "btn btn-secondary" })
+}

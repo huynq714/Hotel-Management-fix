@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Hotel_Management.Models.RoomViewModel>
+@{
+    ViewBag.Title = "Danh sách phòng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="mb-4">Danh sách phòng</h2>
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        @Html.ActionLink("➕ Thêm phòng mới", "Create", "Room", null, new { @class = "btn btn-success" })
+    </div>
+    <div class="col-md-6 text-right">
+        @using (Html.BeginForm("Index", "Room", FormMethod.Get))
+        {
+            <div class="form-inline d-flex justify-content-end">
+            
+                <select id="sortBy" name="sortBy" class="form-control mr-2">
+                    <option value="">-- Chọn tiêu chí --</option>
+                    <option value="buildingName" @(Request["sortBy"] == "buildingName" ? "selected" : "")>Tên tòa nhà</option>
+                    <option value="buildingId" @(Request["sortBy"] == "buildingId" ? "selected" : "")>Mã tòa nhà</option>
+                    <option value="price" @(Request["sortBy"] == "price" ? "selected" : "")>Giá</option>
+                    <option value="status" @(Request["sortBy"] == "status" ? "selected" : "")>Trạng thái</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Sắp xếp</button>
+            </div>
+        }
+    </div>
+</div>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>Mã tòa nhà</th>
+            <th>Tên tòa nhà</th>
+            <th>Số phòng</th>
+            <th>Loại phòng</th>
+            <th>Giá</th>
+            <th>Người lớn tối đa</th>
+            <th>Trẻ em tối đa</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="9" class="text-center">Không có phòng nào được tìm thấy.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var room in Model)
+            {
+                <tr>
+                    <td>@room.BuildingID</td>
+                    <td>@room.BuildingName</td>
+                    <td>@room.RoomNumber</td>
+                    <td>@room.RoomTypeName</td>
+                    <td>@room.RoomPrice.ToString("N0") VNĐ</td>
+                    <td>@room.MaxAdult</td>
+                    <td>@room.MaxChild</td>
+                    <td>@room.Status</td>
+                    <td>
+                        @Html.ActionLink("Sửa", "Edit", new { id = room.RoomID }, new { @class = "btn btn-warning btn-sm" })
+                        |
+                        @Html.ActionLink("Xoá", "Delete", new { id = room.RoomID }, new { @class = "btn btn-danger btn-sm", onclick = "return confirm('Bạn có chắc muốn xoá phòng này?');" })
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

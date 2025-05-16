@@ -10,9 +10,9 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-        
+
         <div class="container">
-            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("Booking Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -22,18 +22,8 @@
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>
-                        @Html.ActionLink("Account", "AccountInfo", "Account", new { area = "" }, new { @class = "nav-link" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("Staff Management", "Index", "StaffAccManagement", new { area = "" }, new { @class = "nav-link" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("BuildingFloor Management", "Index", "BuildingFloor", new { area = "" }, new { @class = "nav-link" })
-                </li>
-                    <li>@Html.ActionLink("Room Management","Index","Room", new { area = "" }, new { @class = "nav-link" })</li>
-                
-
+                    <li>@Html.ActionLink("Account", "AccountInfo", "Account", new { area = "" }, new { @class = "nav-link" }) </li>
+                  
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @if (Session["User"] != null)
@@ -46,21 +36,21 @@
 
                 </ul>
             </div>
+        </div>
+    </nav>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
     </div>
-</nav>
-<div class="container body-content">
-    @RenderBody()
-    <hr />
-    <footer>
-        <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-    </footer>
-</div>
 
 
 
 
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/bootstrap")
-@RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 </body>
 </html>

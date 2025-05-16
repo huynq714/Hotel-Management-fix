@@ -1,0 +1,136 @@
+﻿@model Hotel_Management.Models.RoomViewModel
+
+@{
+    ViewBag.Title = "Tạo phòng mới";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .full-screen-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f8f9fa;
+        padding: 20px;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 700px;
+        background: white;
+        padding: 30px 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            min-width: 130px; /* cố định để input thẳng hàng */
+            font-weight: 600;
+            margin-right: 10px;
+            white-space: nowrap;
+        }
+
+    .form-control {
+        flex: 1;
+        padding: 0.4rem 0.6rem;
+        font-size: 1rem;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+    }
+
+    .validation-error {
+        color: red;
+        font-size: 0.9rem;
+        margin-left: 140px;
+        margin-top: -10px;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        min-width: 120px;
+    }
+
+        .btn + .btn {
+            margin-left: 15px;
+        }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: bold;
+    }
+</style>
+
+<div class="full-screen-center">
+    <div class="form-container">
+        <h2>Tạo phòng mới</h2>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.BuildingID, "Tòa nhà")
+                @Html.DropDownListFor(model => model.BuildingID, new SelectList(Model.Buildings, "BuildingID", "BuildingName"), "Chọn tòa nhà", new { @class = "form-control" })
+            </div>
+            @Html.ValidationMessageFor(model => model.BuildingID, "", new { @class = "validation-error" })
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.RoomNumber, "Số phòng")
+                @Html.EditorFor(model => model.RoomNumber, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            @Html.ValidationMessageFor(model => model.RoomNumber, "", new { @class = "validation-error" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.RoomTypeID, "Loại phòng")
+                @Html.DropDownListFor(model => model.RoomTypeID, new SelectList(Model.RoomTypes, "RoomTypeID", "TypeName"), "Chọn loại phòng", new { @class = "form-control" })
+            </div>
+            @Html.ValidationMessageFor(model => model.RoomTypeID, "", new { @class = "validation-error" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Status, "Trạng thái")
+                @Html.DropDownListFor(model => model.Status, new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "Đang trống", Value = "Đang trống" },
+                    new SelectListItem { Text = "Đang dọn dẹp", Value = "Đang dọn dẹp" },
+                    new SelectListItem { Text = "Đã đặt", Value = "Đã đặt" }
+                }, "Chọn trạng thái", new { @class = "form-control" })
+            </div>
+            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "validation-error" })
+
+            <div class="form-group" style="justify-content: center; margin-top: 30px;">
+                <input type="submit" value="Tạo phòng" class="btn btn-primary font-weight-bold" />
+                @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-secondary" })
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $('#BuildingID').change(function () {
+                var buildingId = $(this).val();
+                $.ajax({
+                    url: '/Room/Create',
+                    type: 'GET',
+                    data: { buildingId: buildingId },
+                    success: function (result) {
+                        var floorDropdown = $(result).find('#FloorID');
+                        $('#FloorID').html(floorDropdown.html());
+                    }
+                });
+            });
+        });
+    </script>
+}

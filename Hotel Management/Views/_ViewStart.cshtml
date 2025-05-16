@@ -1,19 +1,20 @@
 ﻿@{
+
+    {
+        Layout = "~/Views/Shared/_DefaultLayout.cshtml"; // Nếu chưa đăng nhập, dùng layout mặc định
+    }
     var role = System.Web.HttpContext.Current.Session["Role"] as string;
 
     if (!string.IsNullOrEmpty(role))
     {
         if (role == "Customer")
         {
-            Layout = "~/Views/Shared/CustomerLayout.cshtml";
+            Layout = "~/Views/Shared/_CustomerLayout.cshtml";
         }
         else
         {
-            Layout = "~/Views/Shared/_Layout.cshtml"; // Layout mặc định cho Admin, Staff
+            Layout = "~/Views/Shared/_AdminLayout.cshtml"; // Layout mặc định cho Admin, Staff
         }
     }
-    else
-    {
-        Layout = "~/Views/Shared/_Layout.cshtml"; // Nếu chưa đăng nhập, dùng layout mặc định
-    }
+    
 }
