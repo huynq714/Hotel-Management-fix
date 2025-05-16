@@ -1,5 +1,6 @@
 ﻿@model Hotel_Management.Models.RoomSearchResult
 
+
 @{
     ViewData["Title"] = "Chi tiết phòng";
 }
@@ -42,6 +43,13 @@
                 <div class="card-body">
                     <h4 class="card-title">Đặt phòng</h4>
                     <form method="post" action="@Url.Action("BookRoom", "Booking")">
+                        @Html.AntiForgeryToken()
+
+                        <!-- Hiển thị lỗi tổng quát -->
+                        @if (ViewBag.BookingError != null)
+                        {
+                            <div class="alert alert-danger">@ViewBag.BookingError</div>
+                        }
                         <input type="hidden" name="RoomId" value="@Model.RoomID" />
                         <div style="display: inline-flex; width: 100%; gap: 20px">
                             <div class="form-group">
@@ -63,12 +71,18 @@
                                 <input type="number" class="form-control" id="NumberChild" name="NumberChild" value="0" min="0">
                             </div>
                         </div>
-                            <button type="submit" class="btn btn-primary mt-3">Đặt phòng</button>
+                        <button type="submit" class="btn btn-primary mt-3">Đặt phòng</button>
                     </form>
+                    @if (ViewBag.BookingSuccess != null)
+                    {
+                        <div class="alert alert-success mt-4">@ViewBag.BookingSuccess</div>
+                    }
+
                 </div>
             </div>
         </div>
+    </div>
 </div>
-<div>
-    <a asp-action="TimKiem">Trở về trang tìm kiếm</a>
-</div>
+    <div>
+        <a asp-action="TimKiem">Trở về trang tìm kiếm</a>
+    </div>

@@ -145,6 +145,14 @@ namespace Hotel_Management.Controllers
                 Status = room.Status,
                 Address = room.Building.Address
             };
+            if (TempData["BookingSuccess"] != null) {
+                ViewBag.BookingSuccess = TempData["BookingSuccess"];
+            }
+            if (TempData["BookingError"] != null)
+            {
+
+                ViewBag.BookingError = TempData["BookingError"].ToString();
+            }
             return View(roomDetail);
         }
     }
