@@ -1,0 +1,88 @@
+﻿@model Hotel_Management.Models.RoomSearchResult
+
+
+@{
+    ViewData["Title"] = "Chi tiết phòng";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>Thông tin phòng</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card" style="width: 100%;">
+                <div class="card-img-top" style="height: 300px; background-color: #ddd; overflow: hidden">
+                    <img src="~/Image/hotel.jpg" width="100%" height="100%" />
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">@Model.RoomNumber - @Model.TypeName</h5>
+                    <p class="card-text">Tòa nhà: @Model.BuildingName, Tầng: @Model.FloorNumber</p>
+                    <p class="card-text">Địa chỉ: @Model.Address</p>
+                    <p class="card-text">Sức chứa: @Model.MaxAdult người lớn, @Model.MaxChild trẻ em</p>
+                    <p class="card-text">Giá: @Model.Price</p>
+                    <p class="card-text">Trạng thái: @Model.Status</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                    <h4 class="card-title">Mô tả</h4>
+                    <p class="card-text">...</p>  <p class="card-text">Các tiện nghi của phòng</p>
+                </div>
+            </div>
+            <div class="card" style="width: 100%; margin-top:20px">
+                <div class="card-body">
+                    <h4 class="card-title">Nội quy</h4>
+                    <p class="card-text">...</p>
+                </div>
+            </div>
+            <div class="card" style="width: 100%; margin-top:20px">
+                <div class="card-body">
+                    <h4 class="card-title">Đặt phòng</h4>
+                    <form method="post" action="@Url.Action("BookRoom", "Booking")">
+                        @Html.AntiForgeryToken()
+
+                        <!-- Hiển thị lỗi tổng quát -->
+                        @if (ViewBag.BookingError != null)
+                        {
+                            <div class="alert alert-danger">@ViewBag.BookingError</div>
+                        }
+                        <input type="hidden" name="RoomId" value="@Model.RoomID" />
+                        <div style="display: inline-flex; width: 100%; gap: 20px">
+                            <div class="form-group">
+                                <label for="CheckInDate">Ngày nhận phòng:</label>
+                                <input type="date" class="form-control" id="CheckInDate" name="CheckInDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="CheckOutDate">Ngày trả phòng:</label>
+                                <input type="date" class="form-control" id="CheckOutDate" name="CheckOutDate" required>
+                            </div>
+                        </div>
+                        <div style="display: inline-flex; width: 100%; gap: 20px">
+                            <div class="form-group">
+                                <label for="NumberAdult">Số người lớn:</label>
+                                <input type="number" class="form-control" id="NumberAdult" name="NumberAdult" value="1" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="NumberChild">Số trẻ em:</label>
+                                <input type="number" class="form-control" id="NumberChild" name="NumberChild" value="0" min="0">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Đặt phòng</button>
+                    </form>
+                    @if (ViewBag.BookingSuccess != null)
+                    {
+                        <div class="alert alert-success mt-4">@ViewBag.BookingSuccess</div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div>
+        <a href='@Url.Action("Index", "RoomSearch")'>Trở về trang tìm kiếm</a>
+    </div>

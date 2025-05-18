@@ -22,8 +22,11 @@
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Room Search", "Index", "RoomSearch", new { area = "" }, new { @class = "nav-link" }) </li>
+                    <li>@Html.ActionLink("booking", "Index", "Booking", new { area = "" }, new { @class = "nav-link" }) </li>
+
                     <li>@Html.ActionLink("Account", "AccountInfo", "Account", new { area = "" }, new { @class = "nav-link" }) </li>
-                  
+
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @if (Session["User"] != null)
