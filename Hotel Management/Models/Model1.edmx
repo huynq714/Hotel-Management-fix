@@ -97,7 +97,6 @@
           <Property Name="RoomNumber" Type="nvarchar" MaxLength="10" />
           <Property Name="RoomTypeID" Type="int" />
           <Property Name="Status" Type="nvarchar" MaxLength="20" />
-          <Property Name="NumberOfFloor" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="RoomTypes">
           <Key>
@@ -470,7 +469,6 @@
           <Property Name="RoomNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="RoomTypeID" Type="Int32" />
           <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="NumberOfFloor" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Bookings" Relationship="Model.FK_Bookings_Rooms" FromRole="Room" ToRole="Booking" />
           <NavigationProperty Name="Building" Relationship="Model.FK__Rooms__BuildingI__4D94879B" FromRole="Room" ToRole="Building" />
           <NavigationProperty Name="RoomType" Relationship="Model.FK__Rooms__RoomTypeI__4F7CD00D" FromRole="Room" ToRole="RoomType" />
@@ -731,7 +729,6 @@
           <EntitySetMapping Name="Rooms">
             <EntityTypeMapping TypeName="Model.Room">
               <MappingFragment StoreEntitySet="Rooms">
-                <ScalarProperty Name="NumberOfFloor" ColumnName="NumberOfFloor" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="RoomTypeID" ColumnName="RoomTypeID" />
                 <ScalarProperty Name="RoomNumber" ColumnName="RoomNumber" />

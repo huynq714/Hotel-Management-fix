@@ -23,7 +23,6 @@ namespace Hotel_Management.Controllers
             {
                 RoomID = r.RoomID,
                 BuildingID = (int)r.BuildingID,
-                NumberOfFloor = (int)r.NumberOfFloor,
                 RoomNumber = r.RoomNumber,
                 RoomTypeID = (int)r.RoomTypeID,
                 Status = r.Status,
@@ -57,7 +56,7 @@ namespace Hotel_Management.Controllers
 
         // GET: Room/Create
         // Hiển thị form tạo phòng mới
-        public ActionResult Create(int? buildingId, int? floorNumber)
+        public ActionResult Create(int? buildingId)
         {
             // Khởi tạo view model
             var model = new RoomViewModel
@@ -66,27 +65,6 @@ namespace Hotel_Management.Controllers
                 RoomTypes = db.RoomTypes.ToList(), // Lấy danh sách các loại phòng để hiển thị trong dropdown
                 Floors = new List<Floor>()         //Khởi tạo để không bị lỗi null
             };
-
-            // Nếu có buildingId được truyền vào, lấy danh sách tầng tương ứng
-            if (buildingId.HasValue)
-            {
-                var selectedBuilding = db.Buildings.FirstOrDefault(b => b.BuildingID == buildingId);
-                if (selectedBuilding != null)
-                {
-                    // Lấy tầng lớn nhất của tòa nhà được chọn
-                    int maxFloorNumber = (int)db.Floors
-                        .Where(f => f.BuildingID == buildingId)
-                        .Max(f => f.FloorNumber);
-
-                    // Tạo danh sách tầng từ 1 đến tầng lớn nhất
-                    var floors = new List<Floor>();
-                    for (int i = 1; i <= maxFloorNumber; i++)
-                    {
-                        floors.Add(new Floor { FloorNumber = i });
-                    }
-                    model.Floors = floors;
-                }
-            }
 
 
             // Truyền dữ liệu model cho view
@@ -107,10 +85,10 @@ namespace Hotel_Management.Controllers
                 {
                     BuildingID = model.BuildingID,
                     RoomNumber = model.RoomNumber,
-                    NumberOfFloor = model.NumberOfFloor,
                     RoomTypeID = model.RoomTypeID,
                     Status = model.Status
                 };
+
 
                 // Thêm đối tượng Room vào database
                 db.Rooms.Add(room);
@@ -145,7 +123,6 @@ namespace Hotel_Management.Controllers
             {
                 RoomID = room.RoomID,
                 BuildingID = (int)room.BuildingID,
-                NumberOfFloor = (int)room.NumberOfFloor,
                 RoomNumber = room.RoomNumber,
                 RoomTypeID = (int)room.RoomTypeID,
                 Status = room.Status,
@@ -193,7 +170,6 @@ namespace Hotel_Management.Controllers
                 }
 
                 room.BuildingID = model.BuildingID;
-                room.NumberOfFloor = model.NumberOfFloor;
                 room.RoomNumber = model.RoomNumber;
                 room.RoomTypeID = model.RoomTypeID;
                 room.Status = model.Status;
@@ -237,7 +213,6 @@ namespace Hotel_Management.Controllers
             {
                 RoomID = room.RoomID,
                 BuildingID = (int)room.BuildingID,
-                NumberOfFloor = (int)room.NumberOfFloor,
                 RoomNumber = room.RoomNumber,
                 RoomTypeID = (int)room.RoomTypeID,
                 Status = room.Status,

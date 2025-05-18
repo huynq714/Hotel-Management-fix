@@ -1,53 +1,108 @@
 ﻿@model Hotel_Management.Models.BuildingFloorViewModel
 
 @{
-    ViewBag.Title = "Xóa Tòa nhà";
+    ViewBag.Title = "Xoá Tòa nhà";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="container d-flex justify-content-center">
-    <div class="col-md-8">
-        <h2 class="mb-4 text-danger">⚠️ Xác nhận xóa tòa nhà</h2>
+<style>
+    .full-screen-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 0;
+        background-color: #f8f9fa;
+        min-height: 100vh;
+    }
 
-        <div class="alert alert-warning">
-            <strong>Bạn có chắc chắn muốn xóa tòa nhà sau không?</strong>
+    .form-container {
+        width: 100%;
+        max-width: 700px;
+        background: white;
+        padding: 30px 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: bold;
+    }
+
+    .form-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            min-width: 130px;
+            font-weight: 600;
+            margin-right: 10px;
+            white-space: nowrap;
+        }
+
+    .form-control-static {
+        flex: 1;
+        height: 38px;
+        font-size: 1rem;
+        background-color: #e9ecef;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 12px;
+    }
+
+    .form-buttons {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+        gap: 20px;
+    }
+
+    .btn {
+        min-width: 120px;
+    }
+
+    .confirm-text {
+        text-align: center;
+        font-size: 1.1rem;
+        color: #dc3545;
+        margin-bottom: 30px;
+        font-weight: 500;
+    }
+</style>
+
+<div class="full-screen-center">
+    <div class="form-container">
+        <h2>@ViewBag.Title</h2>
+
+        <div class="confirm-text">Bạn có chắc chắn muốn xoá tòa nhà này không?</div>
+
+        <div class="form-group">
+            <label>Tên tòa nhà:</label>
+            <div class="form-control-static">@Model.BuildingName</div>
         </div>
 
-        <div class="mb-4">
-            <div class="row mb-2">
-                <label class="col-md-4 fw-bold">Mã tòa nhà:</label>
-                <div class="col-md-8">@Model.BuildingID</div>
-            </div>
-            <div class="row mb-2">
-                <label class="col-md-4 fw-bold">Tên tòa nhà:</label>
-                <div class="col-md-8">@Model.BuildingName</div>
-            </div>
-            <div class="row mb-2">
-                <label class="col-md-4 fw-bold">Địa chỉ:</label>
-                <div class="col-md-8">@Model.Address</div>
-            </div>
+        <div class="form-group">
+            <label>Địa chỉ:</label>
+            <div class="form-control-static">@Model.Address</div>
         </div>
 
         @if (Model.Floors != null && Model.Floors.Any())
         {
-            <h5 class="mb-2">🧱 Danh sách tầng sẽ bị xóa:</h5>
-            <table class="table table-bordered table-sm">
-                <thead class="table-light">
-                    <tr>
-                        <th class="text-center">Số tầng</th>
-                        <th class="text-center">Số phòng</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <div class="form-group">
+                <label>Danh sách tầng:</label>
+                <div class="form-control-static">
                     @foreach (var floor in Model.Floors)
                     {
-                        <tr>
-                            <td class="text-center">@floor.FloorNumber</td>
-                            <td class="text-center">@floor.TotalRoomsOfFloor</td>
-                        </tr>
+                        @Html.Raw(floor.FloorNumber + " ")
                     }
-                </tbody>
-            </table>
+                </div>
+            </div>
         }
 
         @using (Html.BeginForm("Delete", "BuildingFloor", FormMethod.Post))
@@ -55,9 +110,9 @@
             @Html.AntiForgeryToken()
             @Html.HiddenFor(model => model.BuildingID)
 
-            <div class="d-flex justify-content-between mt-4">
-                <button type="submit" class="btn btn-danger">🗑️ Xóa</button>
-                @Html.ActionLink("🔙 Hủy", "Index", null, new { @class = "btn btn-secondary" })
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-danger">Xoá</button>
+                @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary" })
             </div>
         }
     </div>

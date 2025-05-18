@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Hotel_Management.Models.RoomViewModel>
+
 @{
     ViewBag.Title = "Danh sách phòng";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -14,7 +15,6 @@
         @using (Html.BeginForm("Index", "Room", FormMethod.Get))
         {
             <div class="form-inline d-flex justify-content-end">
-            
                 <select id="sortBy" name="sortBy" class="form-control mr-2">
                     <option value="">-- Chọn tiêu chí --</option>
                     <option value="buildingName" @(Request["sortBy"] == "buildingName" ? "selected" : "")>Tên tòa nhà</option>
@@ -46,7 +46,7 @@
         @if (!Model.Any())
         {
             <tr>
-                <td colspan="9" class="text-center">Không có phòng nào được tìm thấy.</td>
+                <td colspan="10" class="text-center">Không có phòng nào được tìm thấy.</td>
             </tr>
         }
         else

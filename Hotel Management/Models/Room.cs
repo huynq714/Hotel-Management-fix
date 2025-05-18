@@ -25,7 +25,6 @@ namespace Hotel_Management.Models
         public string RoomNumber { get; set; }
         public Nullable<int> RoomTypeID { get; set; }
         public string Status { get; set; }
-        public int NumberOfFloor { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Booking> Bookings { get; set; }

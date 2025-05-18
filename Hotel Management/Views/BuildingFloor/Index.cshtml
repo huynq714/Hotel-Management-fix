@@ -2,9 +2,11 @@
 
 @{
     ViewBag.Title = "Danh sách Tòa nhà và Tầng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<!-- THÔNG BÁO XÓA THÀNH CÔNG -->
+<h2 class="mb-4">Danh sách Tòa nhà và Tầng</h2>
+
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show text-center fw-bold" role="alert" style="max-width: 600px; margin: 0 auto;">
@@ -24,32 +26,30 @@
     </script>
 }
 
-<h2 class="mb-4">Danh sách Tòa nhà và Tầng</h2>
-
-<!-- Thanh công cụ: Thêm + Tìm kiếm -->
-<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-    <div>
+<div class="row mb-3">
+    <div class="col-md-6">
         @Html.ActionLink("➕ Thêm Tòa nhà mới", "Create", null, new { @class = "btn btn-success" })
     </div>
-
-    @using (Html.BeginForm("Index", "BuildingFloor", FormMethod.Get, new { @class = "d-flex align-items-center gap-2" }))
-    {
-        <label for="searchString" class="me-2 mb-0">Tìm kiếm:</label>
-        <input type="text" name="searchString" value="@Request.QueryString["searchString"]" class="form-control me-2" placeholder="Nhập ID, tên, địa chỉ..." />
-        <button type="submit" class="btn btn-primary me-2">🔍 Tìm</button>
-        <a href="@Url.Action("Index")" class="btn btn-secondary">✖ Bỏ lọc</a>
-    }
+    <div class="col-md-6 text-right">
+        @using (Html.BeginForm("Index", "BuildingFloor", FormMethod.Get))
+        {
+            <div class="form-inline d-flex justify-content-end">
+                <input type="text" name="searchString" value="@Request.QueryString["searchString"]" class="form-control mr-2" placeholder="Nhập ID, tên, địa chỉ..." />
+                <button type="submit" class="btn btn-primary mr-2">🔍 Tìm</button>
+                <a href="@Url.Action("Index")" class="btn btn-secondary">✖ Bỏ lọc</a>
+            </div>
+        }
+    </div>
 </div>
 
-<!-- BẢNG HIỂN THỊ TÒA NHÀ -->
-<table class="table table-bordered table-hover">
-    <thead class="table-dark">
+<table class="table table-bordered table-striped table-hover">
+    <thead class="thead-dark">
         <tr>
-            <th style="width: 10%;">ID</th>
-            <th style="width: 20%;">Tên Tòa nhà</th>
-            <th style="width: 25%;">Địa chỉ</th>
+            <th>ID</th>
+            <th>Tên Tòa nhà</th>
+            <th>Địa chỉ</th>
             <th>Danh sách Tầng</th>
-            <th style="width: 15%;">Thao tác</th>
+            <th>Thao tác</th>
         </tr>
     </thead>
     <tbody>
@@ -62,20 +62,20 @@
                 <td>
                     @if (building.Floors != null && building.Floors.Any())
                     {
-                        <ul class="mb-0 ps-3">
+                        <ul class="list-unstyled">
                             @foreach (var floor in building.Floors.OrderBy(f => f.FloorNumber))
                             {
                                 <li>
                                     <strong>Tầng:</strong>
                                     @if (floor.FloorNumber < 0)
                                     {
-                                        <span class="text-danger">Không hợp lệ (floor &lt; 0)</span>
+                                        <span class="text-danger">Không hợp lệ (floor < 0)</span>
                                     }
                                     else
                                     {
                                         @floor.FloorNumber
                                     }
-                                    - <strong>Phòng:</strong> @floor.TotalRoomsOfFloor
+                                    - <strong>Phòng/Tầng:</strong> @floor.TotalRoomsOfFloor
                                 </li>
                             }
                         </ul>
@@ -86,8 +86,9 @@
                     }
                 </td>
                 <td>
-                    @Html.ActionLink("✏️ Sửa", "Edit", new { id = building.BuildingID }, new { @class = "btn btn-sm btn-primary mb-1" }) <br />
-                    @Html.ActionLink("🗑 Xóa", "Delete", new { id = building.BuildingID }, new { onclick = "return confirm('Bạn có chắc muốn xóa không?')", @class = "btn btn-sm btn-danger" })
+                    @Html.ActionLink("✏️ Sửa", "Edit", new { id = building.BuildingID }, new { @class = "btn btn-warning btn-sm mb-1" })
+                    <br />
+                    @Html.ActionLink("🗑 Xóa", "Delete", new { id = building.BuildingID }, new { onclick = "return confirm('Bạn có chắc muốn xóa không?')", @class = "btn btn-danger btn-sm" })
                 </td>
             </tr>
         }

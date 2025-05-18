@@ -14,8 +14,6 @@ namespace Hotel_Management.Models
         [Required]
         public int BuildingID { get; set; }
 
-        public int NumberOfFloor { get; set; }
-
         [Required]
         public int FloorID { get; set; }
 
