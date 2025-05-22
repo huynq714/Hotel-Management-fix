@@ -36,7 +36,6 @@ namespace Hotel_Management.Controllers
                     RoomID = booking.RoomID,
                     RoomNumber = booking.Room.RoomNumber,
                     RoomType = booking.Room.RoomType.TypeName,
-                    FloorNumber = booking.Room.NumberOfFloor,
                     BuildingName = booking.Room.Building.BuildingName,
                     BuildingAddress = booking.Room.Building.Address,
                     CheckInDate = booking.CheckInDate,
@@ -72,7 +71,6 @@ namespace Hotel_Management.Controllers
                     RoomID = booking.RoomID,
                     RoomNumber = booking.Room.RoomNumber,
                     RoomType = booking.Room.RoomType.TypeName,
-                    FloorNumber = booking.Room.NumberOfFloor,
                     BuildingName = booking.Room.Building.BuildingName,
                     BuildingAddress = booking.Room.Building.Address,
                     CheckInDate = booking.CheckInDate,
@@ -181,25 +179,39 @@ namespace Hotel_Management.Controllers
                 return View(bookingDetail);
             }
 
-            // POST: Booking/Delete/5
-            [HttpPost, ActionName("Delete")]
-            [ValidateAntiForgeryToken]
-            public ActionResult DeleteConfirmed(int id)
+        // POST: Booking/Delete/5
+        // POST: Booking/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            var booking = db.Bookings.Find(id);
+            if (booking == null)
             {
-                var booking = db.Bookings.Find(id);
-                if (booking == null)
-                {
-                    return HttpNotFound();
-                }
-                db.Bookings.Remove(booking);
-                db.SaveChanges();
-                return RedirectToAction(nameof(Index)); // Chuyển hướng đến trang danh sách booking
+                return HttpNotFound();
             }
 
+            // Chỉ cho phép xoá khi trạng thái là Pending
+            if (booking.BookingStatus != "Pending")
+            {
+                TempData["BookingDeleted"] = "Chỉ có thể xóa các đơn đặt phòng đang chờ xử lý.";
+                return RedirectToAction("Index");
+            }
+
+            db.Bookings.Remove(booking);
+            db.SaveChanges();
+
+            TempData["BookingDeleted"] = "Đơn đặt phòng đã được xóa thành công.";
+            return RedirectToAction("Index");
+        }
 
 
-            // POST: Booking/Create
-            [HttpPost]
+
+
+
+
+        // POST: Booking/Create
+        [HttpPost]
             [ValidateAntiForgeryToken]
             public ActionResult BookRoom(int RoomId, DateTime CheckInDate, DateTime CheckOutDate, int NumberAdult, int NumberChild)
             {
@@ -284,7 +296,6 @@ namespace Hotel_Management.Controllers
                        RoomID = booking.RoomID,
                        RoomNumber = booking.Room.RoomNumber,
                        RoomType = booking.Room.RoomType.TypeName,
-                       FloorNumber = booking.Room.NumberOfFloor,
                        BuildingName = booking.Room.Building.BuildingName,
                        BuildingAddress = booking.Room.Building.Address,
                        CheckInDate = booking.CheckInDate,

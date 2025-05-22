@@ -16,15 +16,35 @@ namespace Hotel_Management.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-
             return View();
+        }
+
+        // ✅ Action kiểm tra đăng nhập
+        public ActionResult CheckAndRedirectToRoomSearch()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("GoToRoomSearch");
+            }
+
+            // Chưa đăng nhập -> chuyển đến trang Login, có kèm returnUrl
+            return RedirectToAction("Login", "Auth", new
+            {
+                returnUrl = Url.Action("GoToRoomSearch", "Home")
+            });
+        }
+
+        // ✅ Action dành cho người đã đăng nhập để truy cập Roomsearch
+        [Authorize]
+        public ActionResult GoToRoomSearch()
+        {
+            return RedirectToAction("Index", "Roomsearch");
         }
     }
 }

@@ -6,33 +6,37 @@
 
 <h1>@ViewData["Title"]</h1>
 
+<!-- Hiển thị thông báo sau khi xóa -->
+@if (TempData["BookingDeleted"] != null)
+{
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        @TempData["BookingDeleted"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <div class="row">
     @foreach (var booking in Model)
     {
         <div class="col-12 mb-4">
-            <div class="card" style="width: 100%; cursor: pointer;" onclick="window.location.href='@Url.Action("Details", "Booking", new { id = booking.BookingID })'">
+            <div class="card" style="width: 100%;">
                 <div class="card-body">
                     <h5 class="card-title">Mã đặt phòng: @booking.BookingID</h5>
                     <p class="card-text">Ngày nhận phòng: @booking.CheckInDate</p>
                     <p class="card-text">Ngày trả phòng: @booking.CheckOutDate</p>
                     <p class="card-text">Tổng tiền: @booking.TotalPrice</p>
                     <p class="card-text">Trạng thái: @booking.BookingStatus</p>
-                    @if (booking.BookingStatus != "Paid")
-                    {
-                        <div class="d-flex justify-content-end">
-                            <a href="@Url.Action("Payment", "Payment", new { bookingId = booking.BookingID })" class="btn btn-success">Thanh toán</a>
-                        </div>
-                    }
+
+                    <div class="d-flex justify-content-between mt-3">
+                        <a href="@Url.Action("Details", "Booking", new { id = booking.BookingID })" class="btn btn-primary">Xem chi tiết</a>
+
+                        <form action="@Url.Action("Delete", "Booking", new { id = booking.BookingID })" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn xóa đơn đặt phòng này?');">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger">Xóa</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     }
 </div>
-
-<script>
-    // Hàm này được gọi khi người dùng nhấp vào thẻ.
-    function goToDetails(bookingId) {
-        // Chuyển hướng đến trang chi tiết đặt phòng.
-        window.location.href = '/Booking/Details/' + bookingId;
-    }
-</script>

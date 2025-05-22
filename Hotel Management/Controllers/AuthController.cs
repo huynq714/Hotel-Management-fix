@@ -1,16 +1,14 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
 using System.Web.Mvc;
 using Hotel_Management.Models;
 
-
 namespace Hotel_Management.Controllers
-{   
-
+{
     public class AuthController : Controller
     {
         private Hotel_ManagementEntities db = new Hotel_ManagementEntities();
+
         public ActionResult Register()
         {
             return View();
@@ -22,7 +20,6 @@ namespace Hotel_Management.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Kiểm tra trùng Username
                 var existing = db.Accounts.FirstOrDefault(a => a.Username == model.UserName);
                 if (existing != null)
                 {
@@ -30,18 +27,16 @@ namespace Hotel_Management.Controllers
                     return View(model);
                 }
 
-                // Tạo Account mới
                 var newAccount = new Account
                 {
                     Username = model.UserName,
-                    PasswordHash = HashPassword(model.Password), // Gợi ý mã hóa mật khẩu
+                    PasswordHash = HashPassword(model.Password),
                     Role = "Customer",
                     Status = "Active"
                 };
                 db.Accounts.Add(newAccount);
                 db.SaveChanges();
 
-                // Tạo Customer gắn với Account
                 var customer = new Customer
                 {
                     FullName = model.FullName,
@@ -56,19 +51,20 @@ namespace Hotel_Management.Controllers
                 TempData["Success"] = "Đăng ký thành công. Vui lòng đăng nhập.";
                 return RedirectToAction("Login");
             }
+
             return View(model);
         }
 
-
-
-        public ActionResult Login()
+        // GET: Login
+        public ActionResult Login(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginViewModel model)
+        public ActionResult Login(LoginViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -98,39 +94,40 @@ namespace Hotel_Management.Controllers
                 Session["Role"] = account.Role;
                 Session["AccountID"] = account.AccountID;
 
-                if(account.Role == "Admin")
+                if (account.Role == "Admin")
                 {
                     var admin = db.Admins.FirstOrDefault(a => a.AccountID == account.AccountID);
-                    if (admin != null)
-                    {
-                        Session["FullName"] = admin.FullName;
-                    }
+                    if (admin != null) Session["FullName"] = admin.FullName;
                 }
-                else if(account.Role == "Staff")
+                else if (account.Role == "Staff")
                 {
                     var staff = db.Staffs.FirstOrDefault(a => a.AccountID == account.AccountID);
-                    if (staff != null)
-                    {
-                        Session["FullName"] = staff.FullName;
-                    }
+                    if (staff != null) Session["FullName"] = staff.FullName;
                 }
                 else
                 {
                     var customer = db.Customers.FirstOrDefault(c => c.AccountID == account.AccountID);
-                    if (customer != null)
-                    {
-                        Session["FullName"] = customer.FullName;
-                    }
-
+                    if (customer != null) Session["FullName"] = customer.FullName;
                 }
 
+                // 1. Nếu có returnUrl → quay về đó (ví dụ: click "Đặt phòng ngay")
+                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
 
+                // 2. Nếu là Admin hoặc Staff → về Home/Index
+                if (account.Role == "Admin" || account.Role == "Staff")
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+                // 3. Nếu là Customer đăng nhập bình thường → về Home/Index
                 return RedirectToAction("Index", "Home");
             }
 
             return View(model);
         }
-
 
 
         private string HashPassword(string password)
@@ -145,15 +142,9 @@ namespace Hotel_Management.Controllers
 
         public ActionResult Logout()
         {
-            // Xoá session
             Session.Clear();
             Session.Abandon();
-
-            // Redirect về trang Home/Index (sẽ dùng DefaultLayout)
             return RedirectToAction("Index", "Home");
         }
-
-
-
     }
 }

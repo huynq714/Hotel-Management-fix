@@ -1,19 +1,82 @@
 ﻿@{
-    ViewBag.Title = "Contact";
+    ViewBag.Title = "Liên hệ";
 }
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
 
-    <address>
-        One Microsoft Way<br />
-        Redmond, WA 98052-6399<br />
-        <abbr title="Phone">P:</abbr>
-        425.555.0100
-    </address>
+<style>
+    main {
+        max-width: 700px;
+        margin: 60px auto;
+        padding: 0 20px;
+        font-family: 'Segoe UI', sans-serif;
+        color: #2b2f32;
+    }
 
-    <address>
-        <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-        <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-    </address>
+    h2 {
+        font-size: 2.2rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #1c1c1e;
+    }
+
+    .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        font-size: 1.05rem;
+        color: #444;
+    }
+
+    .contact-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        line-height: 1.6;
+    }
+
+    .contact-icon {
+        font-size: 1.4rem;
+        color: #2a7de1;
+        min-width: 30px;
+    }
+
+    .email a {
+        color: #2a7de1;
+        text-decoration: none;
+    }
+
+        .email a:hover {
+            text-decoration: underline;
+        }
+</style>
+
+<main>
+    <h2>@ViewBag.Title</h2>
+
+    <div class="contact-info">
+        <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+                <strong>Địa chỉ:</strong><br />
+                49A Phan Bội Châu, Thạch Thang, Hải Châu, Đà Nẵng
+            </div>
+        </div>
+
+        <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div>
+                <strong>Số điện thoại và người liên hệ:</strong><br />
+                0931 905 144 (Nguyễn Quang Huy)<br />
+                0905 419 953 (Trần Minh Hiếu)
+            </div>
+        </div>
+
+        <div class="contact-item email">
+            <div class="contact-icon">📧</div>
+            <div>
+                <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br />
+                <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
+            </div>
+        </div>
+    </div>
 </main>

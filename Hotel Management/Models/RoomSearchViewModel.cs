@@ -14,7 +14,6 @@ namespace Hotel_Management.Models
         public string RoomNumber { get; set; }
         public string TypeName { get; set; }
         public string BuildingName { get; set; }
-        public int? FloorNumber { get; set; }
         public int? MaxAdult { get; set; }
         public int? MaxChild { get; set; }
         public decimal? Price { get; set; }

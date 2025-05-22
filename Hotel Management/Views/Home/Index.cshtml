@@ -1,33 +1,53 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Trang chủ - Đặt phòng khách sạn";
 }
 
 <main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
+    <!-- Hero Section -->
+    <section class="text-center bg-primary text-white py-5">
+        <div class="container">
+            <h1 class="display-4">Khám phá & Đặt phòng Khách sạn dễ dàng</h1>
+            <p class="lead">Tìm kiếm khách sạn phù hợp cho chuyến đi của bạn chỉ trong vài bước đơn giản.</p>
+            @{
+                var isLoggedIn = Session["User"] != null;
+                var bookingLink = isLoggedIn
+                    ? Url.Action("Index", "Roomsearch")
+                    : Url.Action("Login", "Auth", new { returnUrl = Url.Action("Index", "Roomsearch") });
+            }
+            <a href="@bookingLink" class="btn btn-light btn-lg mt-3">Đặt phòng ngay</a>
+
+</section>
+
+    <!-- Giới thiệu dịch vụ -->
+    <section class="container py-5">
+        <div class="row text-center">
+            <div class="col-md-4">
+                <img src="~/Image/hotel1.jpg" class="img-fluid rounded mb-3" alt="Khách sạn chất lượng" />
+                <h3>Khách sạn chất lượng</h3>
+                <p>Chúng tôi cung cấp danh sách khách sạn đạt tiêu chuẩn trên toàn quốc.</p>
+            </div>
+            <div class="col-md-4">
+                <img src="~/Image/hotel2.jpg" class="img-fluid rounded mb-3" alt="Đặt phòng dễ dàng" />
+                <h3>Đặt phòng dễ dàng</h3>
+                <p>Giao diện thân thiện, chỉ cần vài thao tác là bạn đã có thể đặt phòng thành công.</p>
+            </div>
+            <div class="col-md-4">
+                <img src="~/Image/hotel3.jpg" class="img-fluid rounded mb-3" alt="Hỗ trợ 24/7" />
+                <h3>Hỗ trợ 24/7</h3>
+                <p>Đội ngũ chăm sóc khách hàng luôn sẵn sàng hỗ trợ bạn mọi lúc, mọi nơi.</p>
+            </div>
+        </div>
     </section>
 
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
-    </div>
+    <!-- CTA Section -->
+    <section class="bg-light py-5 text-center">
+        <div class="container">
+            <h2>Chuyến đi trong mơ của bạn bắt đầu tại đây</h2>
+            <p>Hãy đăng ký hoặc đăng nhập để quản lý các đơn đặt phòng và ưu đãi hấp dẫn!</p>
+            <a href="@Url.Action("Register", "Auth")" class="btn btn-success btn-lg me-2">Đăng ký</a>
+            <a href="@Url.Action("Login", "Auth")" class="btn btn-outline-primary btn-lg">Đăng nhập</a>
+      
+
+        </div>
+    </section>
 </main>

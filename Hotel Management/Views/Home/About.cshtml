@@ -1,9 +1,107 @@
 ﻿@{
-    ViewBag.Title = "About";
-}
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
+    ViewBag.Title = "Về chúng tôi";
 
-    <p>Use this area to provide additional information.</p>
+}
+
+<style>
+    main {
+        max-width: 900px;
+        margin: 60px auto;
+        padding: 0 20px;
+        font-family: 'Segoe UI', sans-serif;
+        color: #2b2f32;
+    }
+
+    h2 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 1rem;
+        color: #1c1c1e;
+    }
+
+    .intro {
+        text-align: center;
+        font-size: 1.05rem;
+        color: #555;
+        margin-bottom: 3rem;
+        line-height: 1.7;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .features {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .feature {
+        flex: 1;
+        padding: 20px;
+        background: #f9fafc;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease;
+    }
+
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+
+    .feature-icon {
+        font-size: 2.5rem;
+        color: #2a7de1;
+        margin-bottom: 10px;
+    }
+
+    .feature-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #1e2c3b;
+    }
+
+    .feature-desc {
+        font-size: 0.95rem;
+        color: #555;
+        line-height: 1.4;
+    }
+</style>
+
+<main>
+    <h2>Về chúng tôi</h2>
+    <p class="intro">
+        Chúng tôi tự hào mang đến nền tảng đặt phòng khách sạn trực tuyến hiện đại, giúp khách hàng dễ dàng tìm kiếm và đặt phòng một cách nhanh chóng, an toàn và tiện lợi.
+        Với giao diện thân thiện, dữ liệu minh bạch và quy trình đơn giản, bạn có thể hoàn tất đặt phòng chỉ trong vài phút.
+        Chúng tôi không chỉ kết nối bạn với hàng trăm khách sạn trên khắp cả nước, mà còn mang đến sự an tâm với chính sách rõ ràng, giá cả minh bạch và hỗ trợ khách hàng 24/7.
+    </p>
+
+    <div class="features">
+        <div class="feature">
+            <div class="feature-icon">🏨</div>
+            <div class="feature-title">Khách sạn đa dạng</div>
+            <div class="feature-desc">Hàng trăm lựa chọn từ bình dân đến cao cấp, trên khắp cả nước.</div>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">📱</div>
+            <div class="feature-title">Giao diện dễ dùng</div>
+            <div class="feature-desc">Đặt phòng nhanh gọn, thuận tiện trên cả điện thoại và máy tính.</div>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">🤝</div>
+            <div class="feature-title">Hỗ trợ 24/7</div>
+            <div class="feature-desc">Chúng tôi luôn sẵn sàng hỗ trợ bạn bất cứ lúc nào bạn cần.</div>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">💵</div>
+            <div class="feature-title">Giá minh bạch</div>
+            <div class="feature-desc">Không chi phí ẩn, giá đúng như hiển thị. Đặt phòng không lo phát sinh.</div>
+        </div>
+    </div>
 </main>
